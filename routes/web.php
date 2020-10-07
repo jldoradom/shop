@@ -1,5 +1,7 @@
 <?php
 
+
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 
@@ -14,6 +16,8 @@ use App\Http\Controllers\AdminController;
 |
 */
 
+
+
 Route::get('/', function () {
     return view('web.index');
 });
@@ -21,10 +25,14 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->group( function(){
 
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('users');
 
-    Route::get('/admin/users', function () { return view('admin.users'); })->name('users');
+
+
 
 });
+
+
 
 
 

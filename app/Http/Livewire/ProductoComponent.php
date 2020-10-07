@@ -163,9 +163,14 @@ class ProductoComponent extends Component
     // Funcion para revisar toda la info del producto
     public function revisar($id){
         $producto = Producto::find($id);
+        // Obtenemos los datos del producto para verlos en el form
+        $this->producto_id = $producto->id;
+        $this->nombre = $producto->nombre;
+        $this->descripcion = $producto->descripcion;
+        $this->precio = $producto->precio;
+        $this->stock = $producto->stock;
 
-
-        return view('livewire.producto.index', $producto);
+        $this->view = 'producto.view';
     }
 
 
