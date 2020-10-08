@@ -14,14 +14,29 @@ class ProductoComponent extends Component
     use WithPagination;
     // use  LivewireAlert;
     // Propiedades publicas de la clase
-    public $producto_id,$nombre,$descripcion,$precio,$stock,$confirming;
+    public $producto_id,$nombre,$descripcion,$precio,$stock,$confirming,$producto_estado;
     public $paginate = 5;
     public $search;
     public $view = 'producto.create';
     // Propiedades privadas
     protected $updatesQueryString = ['search'];
 
+    protected $listeners = ['postAdded', 'eliminar', 'editar'];
 
+    public function postAdded($id)
+    {
+       $this->revisar($id);
+    }
+
+    public function eliminar($id)
+    {
+       $this->destroy($id);
+    }
+
+    public function editar($id)
+    {
+       $this->edit($id);
+    }
 
 
     // Funcion que renderiza la vista de los productos
@@ -71,22 +86,14 @@ class ProductoComponent extends Component
     // Funcion que destruye un producto
     public function destroy($id)
     {
-
-        // $this->alert('warning', 'You have been warned!');
-        // Success event
-        // if($this->delete){
-            // $this->alert('success', 'Producto eliminado', [
-            //     'position'  =>  'center',
-            //     'timer'  =>  15000,
-            //     'toast'  =>  false,
-            //     'showConfirmButton'  =>  true,
-            //     DB::table('productos')->where('id', '=', $id)->delete()
-
-            // ]);
-        // }
-
-        // $this->dispatchBrowserEvent('swal', ['title' => 'Feedback Saved']);
         DB::table('productos')->where('id', '=', $id)->delete();
+        // Enviamos mensaje de confirmacion
+        session()->flash('eliminado', 'Producto con ID: ' . $id . ' eliminado.');
+
+    }
+
+    public function noeliminar(){
+        $this->confirming = "";
 
     }
     // Funcion para editar un producto
@@ -124,10 +131,10 @@ class ProductoComponent extends Component
         ]);
 
 
-        // Enviamos mensaje de conf"irmacion
-        session()->flash('message', "Producto actualizado corréctamente, pulsa en 'VOLVER A NUEVO PRODUCTO' para añadir o editar otro producto.");
+        // Enviamos mensaje de confirmacion
+        session()->flash('message', "Producto actualizado corréctamente.");
 
-        // $this->default();
+        $this->default();
 
 
 
@@ -169,9 +176,12 @@ class ProductoComponent extends Component
         $this->descripcion = $producto->descripcion;
         $this->precio = $producto->precio;
         $this->stock = $producto->stock;
+        $this->producto_estado = $producto->estado;
 
         $this->view = 'producto.view';
     }
+
+
 
 
 

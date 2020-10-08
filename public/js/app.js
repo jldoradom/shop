@@ -19343,6 +19343,8 @@ module.exports = function(module) {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+__webpack_require__(/*! ./main */ "./resources/js/main.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -19374,6 +19376,42 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/main.js":
+/*!******************************!*\
+  !*** ./resources/js/main.js ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js"),
+    set = _require.set;
+
+Livewire.on('postAdded', function () {
+  // document.querySelector("html, body").animate({scrollTop: 1000},600);
+  $("html, body").scrollTop(1000);
+});
+Livewire.on('eliminar', function () {
+  var alerta = $('.alert');
+
+  if (alerta) {
+    setTimeout(function () {
+      $('.alert').hide();
+    }, 4000);
+  }
+});
+Livewire.on('editar', function () {
+  $("html, body").scrollTop(1000);
+  var alerta = $('.alert');
+
+  if (alerta) {
+    setTimeout(function () {
+      $('.alert').hide();
+    }, 7000);
+  }
+});
 
 /***/ }),
 
