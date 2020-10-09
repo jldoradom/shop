@@ -24,12 +24,12 @@
             <td class="border px-4 py-2">{{ $precio }}</td>
         </tr>
         <tr>
-            <td class="border px-4 py-2">Publicado</td>
+            <td class="border px-4 py-2">@lang('web.publicado')</td>
             <td class="border px-4 py-2">
                 @if($producto_estado)
-                    Si
+                    OK
                 @else
-                    No
+                    NO
                 @endif
 
             </td>
@@ -37,6 +37,14 @@
         <tr>
             <td class="border px-4 py-2">Stock</td>
             <td class="border px-4 py-2">44</td>
+        </tr>
+        <tr>
+            <td class="border px-4 py-2">Image</td>
+            <td class="border px-4 py-2">
+                @if($image)
+                   <img style="width:200px; margin-top:20px;" src="{{ 'storage/'.$image }}" />
+                @endif
+            </td>
         </tr>
     </tbody>
 </table>

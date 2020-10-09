@@ -17,9 +17,11 @@ class CreateProductosTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->text('descripcion');
+            $table->string('image')->nullable();
             $table->double('precio');
             $table->integer('stock');
             $table->integer('estado');
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

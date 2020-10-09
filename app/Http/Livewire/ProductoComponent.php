@@ -2,27 +2,33 @@
 
 namespace App\Http\Livewire;
 
+
+
+use Illuminate\Support\Facades\auth;
 use Livewire\Component;
-use Livewire\WithPagination;
 use App\Models\Producto;
+use Illuminate\Support\Str;
+use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
-use  Jantinnerezo\LivewireAlert\LivewireAlert;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic;
 
 class ProductoComponent extends Component
 {
 
     use WithPagination;
-    // use  LivewireAlert;
+    use WithFileUploads;
     // Propiedades publicas de la clase
-    public $producto_id,$nombre,$descripcion,$precio,$stock,$confirming,$producto_estado;
+    public $producto_id,$nombre,$descripcion,$precio,$stock,$confirming,$producto_estado,$image;
     public $paginate = 5;
     public $search;
     public $view = 'producto.create';
     // Propiedades privadas
     protected $updatesQueryString = ['search'];
-
     protected $listeners = ['postAdded', 'eliminar', 'editar'];
-
+    // Funciones que escuchan eventos lanzados desde JS
     public function postAdded($id)
     {
        $this->revisar($id);
@@ -56,25 +62,55 @@ class ProductoComponent extends Component
             'nombre' => 'required',
             'descripcion' => 'required',
             'precio' => 'required|numeric',
-            'stock' => 'required|numeric'
+            'stock' => 'required|numeric',
+            'image' => 'required'
         ]);
+
+        $image =  $this->storeImage();
 
         Producto::create([
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
             'precio' => $this->precio,
             'stock' => $this->stock,
+            'estado' => 0,
+            'image' => $image,
+            'user_id' => auth::user()->id
         ]);
+
+
+
         // Una vez creado vaciamos los campos
         $this->nombre ='';
         $this->descripcion = '';
         $this->precio = '';
         $this->stock = '';
-
-        session()->flash('message', 'Producto creado corréctamente.');
-
+        $this->image = '';
 
 
+        if(config('app.locale')  == 'es'){
+            session()->flash('message', 'Producto creado corréctamente.');
+        } else {
+            session()->flash('message', 'Product created correctly.');
+        }
+
+
+
+
+    }
+    // Funcion para comprobar que tenemos la imagen y almacenarla
+    public function storeImage(){
+        if(!$this->image){
+            return null;
+        }
+
+        $img = ImageManagerStatic::make($this->image)->encode('jpg');
+
+        $nameImage = Str::random(). '.jpg';
+
+        Storage::disk('public')->put($nameImage, $img);
+
+        return $nameImage;
     }
     // Funcion para confirmar el borrado de un producto
     public function confirmDelete($id)
@@ -88,10 +124,15 @@ class ProductoComponent extends Component
     {
         DB::table('productos')->where('id', '=', $id)->delete();
         // Enviamos mensaje de confirmacion
-        session()->flash('eliminado', 'Producto con ID: ' . $id . ' eliminado.');
+        if(config('app.locale')  == 'es'){
+            session()->flash('eliminado', 'Producto con ID: ' . $id . ' eliminado.');
+        } else {
+            session()->flash('eliminado', 'Product with ID: ' . $id . ' removed.');
+        }
+
 
     }
-
+    // Funcion para denegar la eliminacion del prpoducto
     public function noeliminar(){
         $this->confirming = "";
 
@@ -109,9 +150,8 @@ class ProductoComponent extends Component
 
         $this->view = 'producto.edit';
     }
-
-     // Funcion que actualiza el producto
-     public function update(){
+    // Funcion que actualiza el producto
+    public function update(){
         // Validamos los campos
         $this->validate([
             'nombre' => 'required',
@@ -135,9 +175,6 @@ class ProductoComponent extends Component
         session()->flash('message', "Producto actualizado corréctamente.");
 
         $this->default();
-
-
-
     }
     // Funcion que limpia los campos y vueve al from de creacion
     public function default(){
@@ -146,7 +183,6 @@ class ProductoComponent extends Component
         $this->descripcion = '';
         $this->precio = '';
         $this->stock = '';
-
 
         $this->view = 'producto.create';
 
@@ -177,6 +213,7 @@ class ProductoComponent extends Component
         $this->precio = $producto->precio;
         $this->stock = $producto->stock;
         $this->producto_estado = $producto->estado;
+        $this->image = $producto->image;
 
         $this->view = 'producto.view';
     }

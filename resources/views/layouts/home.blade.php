@@ -13,6 +13,7 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.css" integrity="sha512-0ns35ZLjozd6e3fJtuze7XJCQXMWmb4kPRbb+H/hacbqu6XfIX0ZRGt6SrmNmv5btrBpbzfdISSd8BAsXJ4t1Q==" crossorigin="anonymous" />
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
 
@@ -31,12 +32,15 @@
             </main>
         </div>
         @stack('modals')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.js" integrity="sha512-TGwgHfEKLhzoWKORK/i2HxEqQNvXn8Pp1RqnKlNn9s/n8O9Umpd8fVee6RFcZ8LDTXAPrOebrCKtKO9HaNkxtA==" crossorigin="anonymous"></script>
         @livewireScripts
+
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
         <script src="{{ asset('js/app.js') }}"></script>
-        {{-- <script src="{{ asset('js/principal.js') }}"></script> --}}
+
 
 
     </body>

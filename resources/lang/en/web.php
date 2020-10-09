@@ -17,6 +17,15 @@ return [
     'eliminar'               =>  'Delete',
     'admin_header_productos'    =>  'In this section you can consult and modify everything related to products',
     'admin_header_usuarios'    =>  'In this section you can consult and modify everything related to users',
+    'producto_eliminado'    =>  'Product removed',
+    'resultados_busqueda'    =>  'Search results',
+    'ver'    =>  'REVIEW',
+    'publicado'    =>  'Published',
+    'publicar'    =>  'To post',
+
+
+
+
 
 
 

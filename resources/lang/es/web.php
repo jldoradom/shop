@@ -18,6 +18,12 @@ return [
     'admin_header_productos'    =>  'En esta sección podrás consultar y modificar todo lo relativo a productos',
     'admin_header_usuarios'    =>  'En esta sección podrás consultar y modificar todo lo relativo a usuarios',
     'producto_eliminado'    =>  'Producto eliminado',
+    'resultados_busqueda'    =>  'Resultados de la busqueda',
+    'ver'    =>  'VER',
+    'publicado'    =>  'Publicado',
+    'publicar'    =>  'Publicar',
+
+
 
 
 

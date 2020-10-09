@@ -29,6 +29,21 @@
                 <span class="text-red-600">{{ $message }}</span>
             @enderror
         </div>
+        {{-- <fieldset class="border p-4 mt-5">
+            <legend  class="block font-medium text-sm text-gray-700">Imágenes Establecimiento: </legend>
+                <div class="form-group">
+                    <label for="imagenes"></label>
+                    <div id="dropzone" class="dropzone form-control"></div>
+                </div>
+        </fieldset> --}}
+        <div class="form-group">
+            <label class="block font-medium text-sm text-gray-700" for="image">Imagen</label>
+            <input type="file" id="image" class="form-control @error('image') is-invalid @enderror" wire:model="image">
+            @error('image')
+                <span class="text-red-600">{{ $message }}</span>
+            @enderror
+        </div>
+        {{-- <input type="hidden" id="uuid" name="uuid" value="{{ Str::uuid()->toString() }}"> --}}
     </div>
     <div class="col-6">
         <p>Resto de campos</p>

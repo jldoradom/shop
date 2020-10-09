@@ -1,4 +1,4 @@
-<h1 class="text-lg font-medium text-gray-900 mb-4">Resultados busqueda</h1>
+<h1 class="text-lg font-medium text-gray-900 mb-4">@lang('web.resultados_busqueda')</h1>
     @if (session()->has('eliminado'))
         <div class="alert alert-success">
             {{ session('eliminado') }}
@@ -7,11 +7,11 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID/VER</th>
+            <th>ID/@lang('web.ver')</th>
             <th>@lang('web.nombre')</th>
             <th>@lang('web.descripcion')</th>
             <th>@lang('web.precio')</th>
-            <th>Publicado</th>
+            <th>@lang('web.publicado')</th>
             <th colspan="3">&nbsp;</th>
         </tr>
     </thead>
@@ -55,7 +55,7 @@
                     <button  wire:click="cambiarEstado({{ $producto->id }})"  class="text-xs inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
                          rounded-md font-semibold text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none
                           focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
-                        Publicar
+                          @lang('web.publicar')
                     </button>
                 </td>
                 <td>
