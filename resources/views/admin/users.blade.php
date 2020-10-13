@@ -1,4 +1,4 @@
-@extends('layouts.home')
+{{-- @extends('layouts.home')
 @section('header')
 @include('admin.navegacion')
 <header class="bg-white shadow">
@@ -13,4 +13,16 @@
     <div class="container">
         <p>Usuarios</p>
     </div>
-@endsection
+@endsection --}}
+
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            @lang('web.admin_header_usuarios')
+        </h2>
+    </x-slot>
+
+    <div class="container">
+        <p>Usuarios</p>
+    </div>
+</x-app-layout>

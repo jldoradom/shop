@@ -21,12 +21,15 @@ class ProductoComponent extends Component
     use WithPagination;
     use WithFileUploads;
     // Propiedades publicas de la clase
-    public $producto_id,$nombre,$descripcion,$precio,$stock,$confirming,$producto_estado,$image;
+    public $producto_id,$nombre,$descripcion,$precio,$stock,$confirming,$producto_estado,$image,$search;
     public $paginate = 5;
-    public $search;
     public $view = 'producto.create';
     // Propiedades privadas
-    protected $updatesQueryString = ['search'];
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'paginate' => ['except' => '5']
+
+    ];
     protected $listeners = ['postAdded', 'eliminar', 'editar'];
     // Funciones que escuchan eventos lanzados desde JS
     public function postAdded($id)
@@ -49,11 +52,19 @@ class ProductoComponent extends Component
     public function render()
     {
         // Devolvemos los productos filtrados
+        // return view('livewire.producto.producto-component', [
+        //     'productos' => $this->search === 0 ?
+        //     Producto::orderBy('created_at', 'DESC')->paginate($this->paginate) :
+        //     Producto::where('nombre', 'like', '%'.$this->search.'%')->paginate($this->paginate)
+        // ]);
+
         return view('livewire.producto.producto-component', [
-            'productos' => $this->search === 0 ?
-            Producto::orderBy('created_at', 'DESC')->paginate($this->paginate) :
-            Producto::where('nombre', 'like', '%'.$this->search.'%')->paginate($this->paginate)
+           'productos' => Producto::where('nombre', 'like' , '%'.$this->search.'%')
+                ->orderBy('created_at', 'DESC')
+                // ->orWhere('campo' ,'like' , '%'.$this->search.'%')
+                ->paginate($this->paginate)
         ]);
+
     }
     // Funcion que almacena un producto
     public function store(){
@@ -216,6 +227,13 @@ class ProductoComponent extends Component
         $this->image = $producto->image;
 
         $this->view = 'producto.view';
+    }
+
+    // Funcion para restear el search
+    public function clear(){
+        $this->search = '';
+        $this->paginate = '5';
+        $this->page = 1;
     }
 
 
