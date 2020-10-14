@@ -43,7 +43,24 @@
                 <span class="text-red-600">{{ $message }}</span>
             @enderror
         </div>
-        {{-- <input type="hidden" id="uuid" name="uuid" value="{{ Str::uuid()->toString() }}"> --}}
+
+        <div class="form-group">
+            <label class="block font-medium text-sm text-gray-700" for="image">Galería</label>
+            @for($i = 0; $i < $camposImagenes; $i++)
+                <input type="file" id="imagenes" class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 mb-3 mt-3"  wire:change="$emit('file_upload_start')">
+                {{-- @error('image')
+                    <span class="text-red-600">{{ $message }}</span>
+                @enderror --}}
+            @endfor
+            <div>
+                <a class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
+                rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none
+                 focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" href="#" wire:click.prevent="handleAddField">Añadir Imagen</a>
+            </div>
+
+        </div>
+
+        {{-- <input wire:model="uuid" type="hidden" id="uuid" name="uuid" value="{{ Str::uuid()->toString() }}"> --}}
     </div>
     <div class="col-6">
         <p>Resto de campos</p>

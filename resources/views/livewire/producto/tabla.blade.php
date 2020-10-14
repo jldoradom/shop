@@ -40,7 +40,7 @@
                         <td class="px-6 py-4 whitespace-no-wrap">
                             <button class="revisar d-flex inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
                             rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none
-                             focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" wire:click="$emit('postAdded', {{$producto->id}})">
+                             focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" wire:click="$emit('view', {{$producto->id}})">
                                 <span class="mr-2 text-xs">{{ $producto->id }}</span>
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -143,7 +143,7 @@
                 <td style="padding-top: 12px !important;">
                     <button class="revisar d-flex inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
                     rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none
-                     focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" wire:click="$emit('postAdded', {{$producto->id}})">
+                     focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" wire:click="$emit('view', {{$producto->id}})">
                         <span class="mr-2 text-xs">{{ $producto->id }}</span>
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>

@@ -28,7 +28,8 @@ class ProductoFactory extends Factory
             'stock' => $this->faker->numberBetween($min = 100, $max = 500),
             'estado' => 0,
             'image' => 'eEw4wE2oadOPHpDS.jpg',
-            'user_id' => 1
+            'user_id' => 1,
+            'uuid' => $this->faker->uuid
 
         ];
     }

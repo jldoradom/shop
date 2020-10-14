@@ -4,13 +4,15 @@ namespace App\Http\Livewire;
 
 
 
-use Illuminate\Support\Facades\auth;
+use App\Models\Imagen;
 use Livewire\Component;
 use App\Models\Producto;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\auth;
+use App\Providers\FileHelperProvider;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic;
@@ -21,8 +23,10 @@ class ProductoComponent extends Component
     use WithPagination;
     use WithFileUploads;
     // Propiedades publicas de la clase
-    public $producto_id,$nombre,$descripcion,$precio,$stock,$confirming,$producto_estado,$image,$search;
+    public $producto_id,$nombre,$descripcion,$precio,$stock,$confirming,$producto_estado,$image,$search,$uuid;
     public $paginate = 5;
+    public $imagenes = [];
+    public $camposImagenes = 1;
     public $view = 'producto.create';
     // Propiedades privadas
     protected $queryString = [
@@ -30,9 +34,14 @@ class ProductoComponent extends Component
         'paginate' => ['except' => '5']
 
     ];
-    protected $listeners = ['postAdded', 'eliminar', 'editar'];
+    protected $listeners = [
+        'view',
+        'eliminar',
+        'editar',
+        'file_upload_end' => 'handleFileUploaded'
+    ];
     // Funciones que escuchan eventos lanzados desde JS
-    public function postAdded($id)
+    public function view($id)
     {
        $this->revisar($id);
     }
@@ -45,6 +54,21 @@ class ProductoComponent extends Component
     public function editar($id)
     {
        $this->edit($id);
+    }
+
+    // public function mount(){
+    //     $this->$camposImagenes = 1;
+    //     $this->imagenes = [];
+    // }
+
+    public function handleAddField(){
+        $this->camposImagenes = $this->camposImagenes + 1;
+    }
+
+    public function handleFileUploaded($file){
+        $this->imagenes[] = $file;
+        logger($this->imagenes);
+
     }
 
 
@@ -74,10 +98,14 @@ class ProductoComponent extends Component
             'descripcion' => 'required',
             'precio' => 'required|numeric',
             'stock' => 'required|numeric',
-            'image' => 'required'
+            'image' => 'required',
         ]);
 
+        $this->subirImagenes();
         $image =  $this->storeImage();
+
+
+
 
         Producto::create([
             'nombre' => $this->nombre,
@@ -86,8 +114,11 @@ class ProductoComponent extends Component
             'stock' => $this->stock,
             'estado' => 0,
             'image' => $image,
-            'user_id' => auth::user()->id
+            'user_id' => auth::user()->id,
+            'uuid' =>   $this->uuid
         ]);
+
+
 
 
 
@@ -97,6 +128,7 @@ class ProductoComponent extends Component
         $this->precio = '';
         $this->stock = '';
         $this->image = '';
+        $this->imagenes = [];
 
 
         if(config('app.locale')  == 'es'){
@@ -109,6 +141,44 @@ class ProductoComponent extends Component
 
 
     }
+
+    public function subirImagenes(){
+        if(!$this->imagenes){
+            return null;
+        }
+        $this->uuid = Str::uuid()->toString();
+
+        foreach($this->imagenes as $imagen) {
+
+            // $img = ImageManagerStatic::make($imagen)->encode('jpg');
+            try{
+
+                $info = FileHelperProvider::getFileInfo($imagen['data']);
+
+                $filename = $imagen['filename'] . Str::random(5). ".{$info['file_extension']}";
+
+
+                $path = "public/galeria/{$this->uuid}/{$filename}";
+
+
+
+                Storage::put($path, $info['decoded_file']);
+
+            } catch(\Exception $e) {
+                logger($e->getMessage());
+            }
+
+
+
+            Imagen::create([
+                'id_producto' => $this->uuid,
+                'path' => $path,
+                'filename' => $filename
+            ]);
+        }
+
+        $this->imagenes = [];
+    }
     // Funcion para comprobar que tenemos la imagen y almacenarla
     public function storeImage(){
         if(!$this->image){
@@ -117,7 +187,7 @@ class ProductoComponent extends Component
 
         $img = ImageManagerStatic::make($this->image)->encode('jpg');
 
-        $nameImage = Str::random(). '.jpg';
+        $nameImage = $this->uuid. '.jpg';
 
         Storage::disk('public')->put($nameImage, $img);
 
