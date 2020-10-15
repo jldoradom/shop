@@ -23,9 +23,11 @@ class ProductoComponent extends Component
     use WithPagination;
     use WithFileUploads;
     // Propiedades publicas de la clase
-    public $producto_id,$nombre,$descripcion,$precio,$stock,$confirming,$producto_estado,$image,$search,$uuid;
+    public $producto_id,$nombre,$descripcion,$precio,$stock,$confirming,$producto_estado,$image,$search;
+    public $uuid = '';
     public $paginate = 5;
     public $imagenes = [];
+    public $imagenesgaleria = [];
     public $camposImagenes = 1;
     public $view = 'producto.create';
     // Propiedades privadas
@@ -38,7 +40,8 @@ class ProductoComponent extends Component
         'view',
         'eliminar',
         'editar',
-        'file_upload_end' => 'handleFileUploaded'
+        'file_upload_end' => 'handleFileUploaded',
+        'eliminarImagen'
     ];
     // Funciones que escuchan eventos lanzados desde JS
     public function view($id)
@@ -99,13 +102,13 @@ class ProductoComponent extends Component
             'precio' => 'required|numeric',
             'stock' => 'required|numeric',
             'image' => 'required',
+            'imagenes' => 'required',
         ]);
 
+        // Subimos las imagenes de la galeria y creamos el uuid
         $this->subirImagenes();
+        // Subimos la imagen principal
         $image =  $this->storeImage();
-
-
-
 
         Producto::create([
             'nombre' => $this->nombre,
@@ -141,22 +144,29 @@ class ProductoComponent extends Component
 
 
     }
-
+    // Funcion para subir imagenes de la galeria del producto
     public function subirImagenes(){
         if(!$this->imagenes){
             return null;
         }
-        $this->uuid = Str::uuid()->toString();
 
+        if($this->uuid === ''){
+            // creamos un uuid unico para enlazar las imagenes con el producto
+            $this->uuid = Str::uuid()->toString();
+        }
+
+        // dd($this->imagenes);
         foreach($this->imagenes as $imagen) {
 
             // $img = ImageManagerStatic::make($imagen)->encode('jpg');
+            // $nombreImagen = $imagen['filename'];
+            // dd($nombreImagen);
             try{
 
                 $info = FileHelperProvider::getFileInfo($imagen['data']);
 
-                $filename = $imagen['filename'] . Str::random(5). ".{$info['file_extension']}";
-
+                $filename = $imagen['filename'];
+                // dd($filename);
 
                 $path = "public/galeria/{$this->uuid}/{$filename}";
 
@@ -168,17 +178,26 @@ class ProductoComponent extends Component
                 logger($e->getMessage());
             }
 
+            $existeImagen = Imagen::where('filename' , '=' , $filename)->get();
+            // dd($existeImagen);
+            // $this->imagenesgaleria = Imagen::where('id_producto', '=', $this->uuid)->get();
 
 
-            Imagen::create([
-                'id_producto' => $this->uuid,
-                'path' => $path,
-                'filename' => $filename
-            ]);
+            if(count($existeImagen) <= 0){
+                Imagen::create([
+                    'id_producto' => $this->uuid,
+                    'path' => $path,
+                    'filename' => $filename
+                ]);
+            }
+
+
+
         }
 
         $this->imagenes = [];
     }
+
     // Funcion para comprobar que tenemos la imagen y almacenarla
     public function storeImage(){
         if(!$this->image){
@@ -193,6 +212,7 @@ class ProductoComponent extends Component
 
         return $nameImage;
     }
+
     // Funcion para confirmar el borrado de un producto
     public function confirmDelete($id)
     {
@@ -219,8 +239,7 @@ class ProductoComponent extends Component
 
     }
     // Funcion para editar un producto
-    public function edit($id)
-    {
+    public function edit($id){
         $producto = Producto::find($id);
         // Obtenemos los datos del producto para verlos en el form
         $this->producto_id = $producto->id;
@@ -228,7 +247,9 @@ class ProductoComponent extends Component
         $this->descripcion = $producto->descripcion;
         $this->precio = $producto->precio;
         $this->stock = $producto->stock;
-
+        $this->uuid = $producto->uuid;
+        // Obtener las imagenes de la tabla imagens
+        $this->imagenesgaleria = Imagen::where('id_producto', '=', $this->uuid)->get();
         $this->view = 'producto.edit';
     }
     // Funcion que actualiza el producto
@@ -243,13 +264,22 @@ class ProductoComponent extends Component
 
         $producto = Producto::find($this->producto_id);
 
-
         $producto->update([
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
             'precio' => $this->precio,
             'stock' => $this->stock,
+            'uuid' =>   $this->uuid
         ]);
+
+        // Comprobar si se actualiza la imagen
+        if($this->image){
+            $image =  $this->storeImage();
+        }
+
+        // Subimos las imagenes de la galeria y creamos el uuid
+        $this->subirImagenes();
+
 
 
         // Enviamos mensaje de confirmacion
@@ -264,7 +294,9 @@ class ProductoComponent extends Component
         $this->descripcion = '';
         $this->precio = '';
         $this->stock = '';
-
+        $this->imagen = '';
+        $this->imagenes = [];
+        $this->imagenesgaleria = [];
         $this->view = 'producto.create';
 
     }
@@ -295,7 +327,9 @@ class ProductoComponent extends Component
         $this->stock = $producto->stock;
         $this->producto_estado = $producto->estado;
         $this->image = $producto->image;
-
+        $this->uuid = $producto->uuid;
+        // Obtener las imagenes de la tabla imagens
+        $this->imagenesgaleria = Imagen::where('id_producto', '=', $this->uuid)->get();
         $this->view = 'producto.view';
     }
 
@@ -304,6 +338,18 @@ class ProductoComponent extends Component
         $this->search = '';
         $this->paginate = '5';
         $this->page = 1;
+    }
+
+    // Funcion para eliminar imagenes de la galeria
+    public function eliminarImagen($id){
+        DB::table('imagens')->where('id', '=', $id)->delete();
+
+        // Enviamos mensaje de confirmacion
+        if(config('app.locale')  == 'es'){
+            session()->flash('messageImagen', 'Imagen con ID: ' . $id . ' eliminada.');
+        } else {
+            session()->flash('messageImagen', 'Imagen with ID: ' . $id . ' removed.');
+        }
     }
 
 

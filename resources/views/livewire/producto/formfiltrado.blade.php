@@ -4,12 +4,12 @@
     <input id="busqueda" class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5" wire:model="search" type="text" placeholder="Buscar...">
     <div class="form-input rounded-md shadow-sm ml-6 block">
         <select wire:model="paginate" class="outline-none text-gray-500 text-sm ">
-            <option value="5">5 por página</option>
-            <option value="10">10 por página</option>
-            <option value="15">15 por página</option>
-            <option value="25">25 por página</option>
-            <option value="30">30 por página</option>
-            <option value="35">35 por página</option>
+            <option value="5">@lang('web.5_por_pagina')</option>
+            <option value="10">@lang('web.10_por_pagina')</option>
+            <option value="15">@lang('web.15_por_pagina')</option>
+            <option value="25">@lang('web.25_por_pagina')</option>
+            <option value="30">@lang('web.30_por_pagina')</option>
+            <option value="35">@lang('web.35_por_pagina')</option>
         </select>
     </div>
     @if($search !== '')

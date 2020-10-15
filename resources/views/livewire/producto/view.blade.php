@@ -7,10 +7,10 @@
             <thead>
               <tr>
                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                    Dato
+                    @lang('web.dato')
                 </th>
                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                    Contenido
+                    @lang('web.contenido')
                 </th>
               </tr>
             </thead>
@@ -55,6 +55,16 @@
                             @if($image)
                                 <img style="width:200px; margin-top:20px;" src="{{ 'storage/'.$image }}" />
                             @endif
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Galeria</td>
+                    <td class="">
+                        <div class="text-sm leading-5 text-gray-900 ml-3">
+                            @foreach($imagenesgaleria as $imagen)
+                                <a target="_blank" href="{{ 'storage/galeria/'.$imagen->id_producto.'/'.$imagen->filename }}"><img style="width:200px; margin-top:20px;" src="{{ 'storage/galeria/'.$imagen->id_producto.'/'.$imagen->filename }}" /></a>
+                            @endforeach
                         </div>
                     </td>
                 </tr>

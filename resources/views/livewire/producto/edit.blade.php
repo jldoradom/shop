@@ -6,6 +6,11 @@
                     {{ session('message') }}
                 </div>
             @endif
+            @if (session()->has('messageImagen'))
+                <div class="alert alert-success">
+                    {{ session('messageImagen') }}
+                </div>
+            @endif
         </div>
         @include('livewire.producto.form')
     </form>

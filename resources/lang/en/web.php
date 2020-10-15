@@ -22,6 +22,18 @@ return [
     'ver'    =>  'REVIEW',
     'publicado'    =>  'Published',
     'publicar'    =>  'To post',
+    'no_resultados' => 'No results for the search',
+    'en_la_pagina' => 'in the page',
+    'al_mostrar' => 'when showing',
+    '5_por_pagina' => '5 per page',
+    '10_por_pagina' => '10 per page',
+    '15_por_pagina' => '15 per page',
+    '20_por_pagina' => '20 per page',
+    '25_por_pagina' => '25 per page',
+    '30_por_pagina' => '30 per page',
+    '35_por_pagina' => '35 per page',
+    'dato' => 'Data',
+    'contenido' => 'Content',
 
 
 

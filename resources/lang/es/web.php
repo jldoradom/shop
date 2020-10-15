@@ -22,6 +22,18 @@ return [
     'ver'    =>  'VER',
     'publicado'    =>  'Publicado',
     'publicar'    =>  'Publicar',
+    'no_resultados' => 'No hay resultados para la busqueda',
+    'en_la_pagina' => 'en la página',
+    'al_mostrar' => 'al mostrar',
+    '5_por_pagina' => '5 por página',
+    '10_por_pagina' => '10 por página',
+    '15_por_pagina' => '15 por página',
+    '20_por_pagina' => '20 por página',
+    '25_por_pagina' => '25 por página',
+    '30_por_pagina' => '30 por página',
+    '35_por_pagina' => '35 por página',
+    'dato' => 'Dato',
+    'contenido' => 'Contenido',
 
 
 
