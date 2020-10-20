@@ -121,10 +121,6 @@ class ProductoComponent extends Component
             'uuid' =>   $this->uuid
         ]);
 
-
-
-
-
         // Una vez creado vaciamos los campos
         $this->nombre ='';
         $this->descripcion = '';
@@ -344,12 +340,6 @@ class ProductoComponent extends Component
     public function eliminarImagen($id){
         DB::table('imagens')->where('id', '=', $id)->delete();
 
-        // Enviamos mensaje de confirmacion
-        if(config('app.locale')  == 'es'){
-            session()->flash('messageImagen', 'Imagen con ID: ' . $id . ' eliminada.');
-        } else {
-            session()->flash('messageImagen', 'Imagen with ID: ' . $id . ' removed.');
-        }
     }
 
 

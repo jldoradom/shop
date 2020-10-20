@@ -22,6 +22,10 @@ Route::get('/', function () {
     return view('web.index');
 });
 
+Route::get('/admin/metro', function () {
+    return view('admin.metro');
+});
+
 Route::middleware(['auth:sanctum', 'verified'])->group( function(){
 
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
