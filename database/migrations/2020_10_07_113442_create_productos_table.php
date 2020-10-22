@@ -13,16 +13,38 @@ class CreateProductosTable extends Migration
      */
     public function up()
     {
+        Schema::create('fabricantes', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->string('pais');
+            $table->string('telefono');
+            $table->string('direccion_id')->constrained();
+            $table->string('web');
+            $table->string('email')->unique();
+            $table->timestamps();
+        });
+
+        Schema::create('categorias', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->string('id_categoria_padre')->nullable();
+            $table->string('descripcion')->nullable();
+            $table->string('slug');
+            $table->timestamps();
+        });
+
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid');
             $table->string('nombre');
             $table->text('descripcion');
-            $table->string('image')->nullable();
             $table->double('precio');
-            $table->integer('stock');
             $table->integer('estado');
             $table->foreignId('user_id')->constrained();
+            $table->uuid('uuid');
+            $table->foreignId('fabricante_id')->constrained();
+            $table->foreignId('categoria_id')->constrained();
+            $table->string('codigo');
+            $table->string('categoria_web');
             $table->timestamps();
         });
     }
@@ -34,6 +56,9 @@ class CreateProductosTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('categorias');
+        Schema::dropIfExists('fabricantes');
         Schema::dropIfExists('productos');
+
     }
 }

@@ -28,7 +28,6 @@
             <div class="">
                 <div>
                     <livewire:producto-component />
-                    {{-- <p>Prueba</p> --}}
                 </div>
             </div>
         </div>

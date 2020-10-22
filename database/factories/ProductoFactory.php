@@ -25,11 +25,13 @@ class ProductoFactory extends Factory
             'nombre' => $this->faker->name,
             'descripcion' => $this->faker->paragraph,
             'precio' => $this->faker->randomFloat,
-            'stock' => $this->faker->numberBetween($min = 100, $max = 500),
             'estado' => 0,
-            'image' => 'eEw4wE2oadOPHpDS.jpg',
             'user_id' => 1,
-            'uuid' => $this->faker->uuid
+            'codigo' => 'df54d54v',
+            'categoria_web' => 'destacado',
+            'uuid' => $this->faker->uuid,
+            'fabricante_id' => 1,
+            'categoria_id' => 1
 
         ];
     }

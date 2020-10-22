@@ -13,6 +13,20 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+        Schema::create('direccions', function (Blueprint $table) {
+            $table->id();
+            $table->string('tipo_via')->nullable();
+            $table->string('nombre_via')->nullable();
+            $table->string('numero')->nullable();
+            $table->string('planta')->nullable();
+            $table->string('puerta')->nullable();
+            $table->string('localidad')->nullable();
+            $table->string('provincia')->nullable();
+            $table->string('pais')->nullable();
+            $table->string('codigo_postal')->nullable();
+            $table->timestamps();
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -22,6 +36,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->text('profile_photo_path')->nullable();
+            $table->foreignId('direccion_id')->constrained();
             $table->timestamps();
         });
     }
@@ -33,6 +48,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('direccions');
         Schema::dropIfExists('users');
     }
 }

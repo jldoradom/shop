@@ -23,7 +23,7 @@ class ProductoComponent extends Component
     use WithPagination;
     use WithFileUploads;
     // Propiedades publicas de la clase
-    public $producto_id,$nombre,$descripcion,$precio,$stock,$confirming,$producto_estado,$image,$search;
+    public $producto_id,$nombre,$descripcion,$precio,$stock,$confirming,$producto_estado,$search;
     public $uuid = '';
     public $paginate = 5;
     public $imagenes = [];
@@ -108,7 +108,7 @@ class ProductoComponent extends Component
         // Subimos las imagenes de la galeria y creamos el uuid
         $this->subirImagenes();
         // Subimos la imagen principal
-        $image =  $this->storeImage();
+        // $image =  $this->storeImage();
 
         Producto::create([
             'nombre' => $this->nombre,
@@ -116,7 +116,6 @@ class ProductoComponent extends Component
             'precio' => $this->precio,
             'stock' => $this->stock,
             'estado' => 0,
-            'image' => $image,
             'user_id' => auth::user()->id,
             'uuid' =>   $this->uuid
         ]);
@@ -269,9 +268,9 @@ class ProductoComponent extends Component
         ]);
 
         // Comprobar si se actualiza la imagen
-        if($this->image){
-            $image =  $this->storeImage();
-        }
+        // if($this->image){
+        //     $image =  $this->storeImage();
+        // }
 
         // Subimos las imagenes de la galeria y creamos el uuid
         $this->subirImagenes();
@@ -290,7 +289,6 @@ class ProductoComponent extends Component
         $this->descripcion = '';
         $this->precio = '';
         $this->stock = '';
-        $this->imagen = '';
         $this->imagenes = [];
         $this->imagenesgaleria = [];
         $this->view = 'producto.create';
@@ -322,7 +320,6 @@ class ProductoComponent extends Component
         $this->precio = $producto->precio;
         $this->stock = $producto->stock;
         $this->producto_estado = $producto->estado;
-        $this->image = $producto->image;
         $this->uuid = $producto->uuid;
         // Obtener las imagenes de la tabla imagens
         $this->imagenesgaleria = Imagen::where('id_producto', '=', $this->uuid)->get();

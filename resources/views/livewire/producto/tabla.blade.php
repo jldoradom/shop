@@ -1,4 +1,4 @@
- <div class="container">
+ <div class="">
     <!--begin::Card-->
     <div class="card card-custom">
         <div class="">
@@ -10,133 +10,176 @@
                         <h3 class="card-label">@lang('web.admin_header_productos')
                         <span class="text-muted pt-2 font-size-sm d-block">Productos</span></h3>
                     </div>
-                    <div class="card-toolbar">
-
-                        <!--begin::Button-->
-                        <a href="#" class="btn btn-primary font-weight-bolder">
-                        <span class="svg-icon svg-icon-md">
-                            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <rect x="0" y="0" width="24" height="24"></rect>
-                                    <circle fill="#000000" cx="9" cy="15" r="6"></circle>
-                                    <path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3"></path>
-                                </g>
-                            </svg>
-                            <!--end::Svg Icon-->
-                        </span>Nuevo producto</a>
-                        <!--end::Button-->
-                    </div>
                 </div>
                 <div class="card-body">
                     <div class="mb-7">
                         <div class="row align-items-center">
                             <div class="col-lg-9 col-xl-8">
                                 <div class="row align-items-center">
-                                    <div class="col-md-4 my-2 my-md-0">
+                                    <div class="col-md-3 my-2 my-md-0">
                                         <div class="input-icon">
-                                            <input type="text" class="form-control" placeholder="Buscar..." id="kt_datatable_search_query">
+                                            <input wire:model="search" id="busqueda" type="text" class="form-control" placeholder="Buscar...">
                                             <span>
                                                 <i class="flaticon2-search-1 text-muted"></i>
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 my-2 my-md-0">
-                                        <div class="d-flex align-items-center">
-                                            <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
-                                            <div class="dropdown bootstrap-select form-control"><select class="form-control" id="kt_datatable_search_status">
-                                                <option value="">All</option>
-                                                <option value="1">Pending</option>
-                                                <option value="2">Delivered</option>
-                                                <option value="3">Canceled</option>
-                                                <option value="4">Success</option>
-                                                <option value="5">Info</option>
-                                                <option value="6">Danger</option>
-                                            </select><button type="button" tabindex="-1" class="btn dropdown-toggle btn-light bs-placeholder" data-toggle="dropdown" role="combobox" aria-owns="bs-select-1" aria-haspopup="listbox" aria-expanded="false" data-id="kt_datatable_search_status" title="All"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">All</div></div> </div></button><div class="dropdown-menu "><div class="inner show" role="listbox" id="bs-select-1" tabindex="-1"><ul class="dropdown-menu inner show" role="presentation"></ul></div></div></div>
+                                    <div class="col-md-3 my-2 my-md-0">
+                                        <div class="input-icon">
+                                            <input wire:model="search" id="busqueda" type="text" class="form-control" placeholder="Buscar...">
+                                            <span>
+                                                <i class="flaticon2-search-1 text-muted"></i>
+                                            </span>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 my-2 my-md-0">
+                                    <div class="col-md-3 my-2 my-md-0">
                                         <div class="d-flex align-items-center">
-                                            <label class="mr-3 mb-0 d-none d-md-block">Type:</label>
-                                            <div class="dropdown bootstrap-select form-control"><select class="form-control" id="kt_datatable_search_type">
-                                                <option value="">All</option>
-                                                <option value="1">Online</option>
-                                                <option value="2">Retail</option>
-                                                <option value="3">Direct</option>
-                                            </select><button type="button" tabindex="-1" class="btn dropdown-toggle btn-light bs-placeholder" data-toggle="dropdown" role="combobox" aria-owns="bs-select-2" aria-haspopup="listbox" aria-expanded="false" data-id="kt_datatable_search_type" title="All"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">All</div></div> </div></button><div class="dropdown-menu "><div class="inner show" role="listbox" id="bs-select-2" tabindex="-1"><ul class="dropdown-menu inner show" role="presentation"></ul></div></div></div>
+                                            <select wire:model="paginate" class="form-control" >
+                                                <option value="5">@lang('web.5_por_pagina')</option>
+                                                <option value="10">@lang('web.10_por_pagina')</option>
+                                                <option value="15">@lang('web.15_por_pagina')</option>
+                                                <option value="25">@lang('web.25_por_pagina')</option>
+                                                <option value="30">@lang('web.30_por_pagina')</option>
+                                                <option value="35">@lang('web.35_por_pagina')</option>
+                                            </select>
                                         </div>
                                     </div>
+                                    @if($search !== '')
+                                        <div class="col-md-3 my-2 my-md-0">
+                                            <div class="d-flex align-items-center">
+                                                <button wire:click="clear" class="btn btn-secondary">X</button>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                                <a href="#" class="btn btn-light-primary px-6 font-weight-bold">Search</a>
+
                             </div>
                         </div>
+                        @if (session()->has('eliminado'))
+                            <div class="alert alert-success mt-4">
+                                {{ session('eliminado') }}
+                            </div>
+                        @endif
                     </div>
                     <!--begin: Datatable-->
-                    <div id="kt_datatable_2_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12"><table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline" id="kt_datatable_2" role="grid" aria-describedby="kt_datatable_2_info" style="width: 1231px;">
-                        <thead>
-                            <tr role="row"><th class="dt-left sorting_disabled" rowspan="1" colspan="1" style="width: 30px;" aria-label="Record ID">
-                                <label class="checkbox checkbox-single">
-                                    <input type="checkbox" value="" class="group-checkable">
-                                    <span></span>
-                                    </label>
-                                </th>
-                                <th class="sorting_desc" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 45px;" aria-sort="descending" aria-label="Order ID: activate to sort column ascending">ID/@lang('web.ver')</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 65px;" aria-label="Country: activate to sort column ascending">@lang('web.nombre')</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 81px;" aria-label="Ship City: activate to sort column ascending">@lang('web.descripcion')</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 87px;" aria-label="Ship Address: activate to sort column ascending">@lang('web.precio')</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 72px;" aria-label="Company Agent: activate to sort column ascending">@lang('web.publicado')</th>
-                                {{-- <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 116px;" aria-label="Company Name: activate to sort column ascending">Company Name</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 47px;" aria-label="Ship Date: activate to sort column ascending">Ship Date</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 75px;" aria-label="Status: activate to sort column ascending">Status</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 75px;" aria-label="Type: activate to sort column ascending">Type</th> --}}
-                                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 125px;" aria-label="Actions">Actions</th></tr>
-                        </thead>
-                        <tbody>
-                            @foreach($productos as $producto)
-                            <tr role="row" class="odd">
-                                <td class="dt-left dtr-control" tabindex="0">
-                                    <label class="checkbox checkbox-single">
-                                        <input type="checkbox" value="" class="checkable">
-                                        <span></span>
-                                    </label>
-                                </td>
-                                <td class="sorting_1">{{ $producto->id }}</td>
-                                <td>{{ $producto->nombre }}</td>
-                                <td>{{ $producto->nombre }}</td>
 
-                                <td>
-                                    <span class="label label-lg font-weight-bold label-light-primary label-inline">Canceled</span>
-                                </td>
-                                <td>
-                                    <span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Retail</span>
-                                </td>
-                                <td nowrap="nowrap">
-                                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon mr-2" title="Edit details">
-                                        <span class="svg-icon svg-icon-md">
-                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect>
-                                                    <path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "></path>
-                                                    <rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"></rect>
-                                                </g>
-                                            </svg>
-                                        </span>
-                                    </a>
-                                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Delete">
-                                        <span class="svg-icon svg-icon-md"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect>
-                                                <path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero"></path>
-                                                <path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3"></path>
-                                            </g></svg>
-                                        </span>
-                                    </a>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
+                    <div id="kt_datatable_2_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12">
+                        @if($productos->count())
+                        <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline"  role="grid" aria-describedby="" style="width: 1231px;">
+                            <thead>
+                                <tr role="row"><th class="dt-left sorting_disabled" rowspan="1" colspan="1" style="width: 30px;" aria-label="">
+                                    <label class="checkbox checkbox-single">
+                                        <input type="checkbox" value="" class="group-checkable">
+                                        <span></span>
+                                        </label>
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 45px;" aria-sort="descending" aria-label="">ID</th>
+                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 65px;" aria-label="">@lang('web.nombre')</th>
+                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 81px;" aria-label="">@lang('web.descripcion')</th>
+                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 87px;" aria-label="">@lang('web.precio')</th>
+                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 72px;" aria-label="">@lang('web.publicado')</th>
+                                    {{-- <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 116px;" aria-label="">Company Name</th>
+                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 47px;" aria-label="">Ship Date</th>
+                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 75px;" aria-label="">Status</th>
+                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 75px;" aria-label="">Type</th> --}}
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 125px;" aria-label="">Accciones</th></tr>
+                            </thead>
+                            <tbody>
+                                @foreach($productos as $producto)
+                                    <tr role="row" class="odd">
+                                        <td class="dt-left dtr-control" tabindex="0">
+                                            <label class="checkbox checkbox-single">
+                                                <input type="checkbox" value="" class="checkable">
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                        <td class="sorting_1">{{ $producto->id }}</td>
+                                        <td>{{ $producto->nombre }}</td>
+                                        <td>{{ $producto->descripcion }}</td>
+
+                                        <td>
+                                            <span class="label label-lg font-weight-bold label-light-primary label-inline">{{ $producto->precio }}</span>
+                                        </td>
+                                        <td>
+                                            @if($producto->estado)
+
+                                                <span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Online</span>
+                                            @else
+
+                                                <span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">NO online</span>
+                                            @endif
+
+                                        </td>
+                                        <td nowrap="nowrap">
+                                            <a href="javascript:;" class="btn btn-sm btn-clean btn-icon mr-2" title="Editar" wire:click="$emit('editar', {{$producto->id}})">
+                                                <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2020-09-29-132851/theme/html/demo1/dist/../src/media/svg/icons/Design/Edit.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <rect x="0" y="0" width="24" height="24"/>
+                                                        <path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>
+                                                        <rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>
+                                                    </g>
+                                                </svg><!--end::Svg Icon--></span>
+                                            </a>
+                                            <a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Ver" wire:click="$emit('view', {{$producto->id}})">
+                                                <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2020-09-29-132851/theme/html/demo1/dist/../src/media/svg/icons/General/Visible.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <rect x="0" y="0" width="24" height="24"/>
+                                                        <path d="M3,12 C3,12 5.45454545,6 12,6 C16.9090909,6 21,12 21,12 C21,12 16.9090909,18 12,18 C5.45454545,18 3,12 3,12 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+                                                        <path d="M12,15 C10.3431458,15 9,13.6568542 9,12 C9,10.3431458 10.3431458,9 12,9 C13.6568542,9 15,10.3431458 15,12 C15,13.6568542 13.6568542,15 12,15 Z" fill="#000000" opacity="0.3"/>
+                                                    </g>
+                                                </svg><!--end::Svg Icon--></span>
+                                            </a>
+                                            <a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Publicar en web" wire:click="cambiarEstado({{ $producto->id }})">
+                                                <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2020-09-29-132851/theme/html/demo1/dist/../src/media/svg/icons/Shopping/Price1.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <polygon points="0 0 24 0 24 24 0 24"/>
+                                                        <path d="M3.52270623,14.028695 C2.82576459,13.3275941 2.82576459,12.19529 3.52270623,11.4941891 L11.6127629,3.54050571 C11.9489429,3.20999263 12.401513,3.0247814 12.8729533,3.0247814 L19.3274172,3.0247814 C20.3201611,3.0247814 21.124939,3.82955935 21.124939,4.82230326 L21.124939,11.2583059 C21.124939,11.7406659 20.9310733,12.2027862 20.5869271,12.5407722 L12.5103155,20.4728108 C12.1731575,20.8103442 11.7156477,21 11.2385688,21 C10.7614899,21 10.3039801,20.8103442 9.9668221,20.4728108 L3.52270623,14.028695 Z M16.9307214,9.01652093 C17.9234653,9.01652093 18.7282432,8.21174298 18.7282432,7.21899907 C18.7282432,6.22625516 17.9234653,5.42147721 16.9307214,5.42147721 C15.9379775,5.42147721 15.1331995,6.22625516 15.1331995,7.21899907 C15.1331995,8.21174298 15.9379775,9.01652093 16.9307214,9.01652093 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+                                                    </g>
+                                                </svg><!--end::Svg Icon--></span>
+                                            </a>
+                                            @if($confirming===$producto->id)
+                                                <a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Eliminar Definitívamente" wire:click="$emit('eliminar', {{$producto->id}})">
+                                                    <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2020-09-29-132851/theme/html/demo1/dist/../src/media/svg/icons/Code/Done-circle.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                            <rect x="0" y="0" width="24" height="24"/>
+                                                            <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>
+                                                            <path d="M16.7689447,7.81768175 C17.1457787,7.41393107 17.7785676,7.39211077 18.1823183,7.76894473 C18.5860689,8.1457787 18.6078892,8.77856757 18.2310553,9.18231825 L11.2310553,16.6823183 C10.8654446,17.0740439 10.2560456,17.107974 9.84920863,16.7592566 L6.34920863,13.7592566 C5.92988278,13.3998345 5.88132125,12.7685345 6.2407434,12.3492086 C6.60016555,11.9298828 7.23146553,11.8813212 7.65079137,12.2407434 L10.4229928,14.616916 L16.7689447,7.81768175 Z" fill="#000000" fill-rule="nonzero"/>
+                                                        </g>
+                                                    </svg><!--end::Svg Icon--></span>
+                                                </a>
+                                                <a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="No Eliminar" wire:click="noeliminar()">
+                                                    <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2020-09-29-132851/theme/html/demo1/dist/../src/media/svg/icons/Code/Error-circle.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                            <rect x="0" y="0" width="24" height="24"/>
+                                                            <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>
+                                                            <path d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z" fill="#000000"/>
+                                                        </g>
+                                                    </svg><!--end::Svg Icon--></span>
+                                                </a>
+                                            @else
+                                                <a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Eliminar producto"  wire:click="confirmDelete({{ $producto->id }})">
+                                                    <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2020-09-29-132851/theme/html/demo1/dist/../src/media/svg/icons/Home/Trash.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                            <rect x="0" y="0" width="24" height="24"/>
+                                                            <path d="M6,8 L18,8 L17.106535,19.6150447 C17.04642,20.3965405 16.3947578,21 15.6109533,21 L8.38904671,21 C7.60524225,21 6.95358004,20.3965405 6.89346498,19.6150447 L6,8 Z M8,10 L8.45438229,14.0894406 L15.5517885,14.0339036 L16,10 L8,10 Z" fill="#000000" fill-rule="nonzero"/>
+                                                            <path d="M14,4.5 L14,3.5 C14,3.22385763 13.7761424,3 13.5,3 L10.5,3 C10.2238576,3 10,3.22385763 10,3.5 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3"/>
+                                                        </g>
+                                                    </svg><!--end::Svg Icon--></span>
+                                                </a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
                     </table>
                 </div>
+                @else
+                    <div class="bg-white px4 py-3 border-t border-gray-200 sm:px-6 text-gray-500">
+                        @lang('web.no_resultados') "{{ $search }}" @lang('web.en_la_pagina') {{ $page }} @lang('web.al_mostrar')  {{ $paginate }}
+                    </div>
+                @endif
             </div>
             {{-- <div class="row">
                 <div class="col-sm-12 col-md-5">
@@ -164,7 +207,7 @@
                     <!--end: Datatable-->
                 </div>
             </div> --}}
-            <!--------- Insertar paginacion aqui debajo --------------->
+            <!--------- Insertar paginacion  --------------->
             <div class="mt-3">
                 {{ $productos->links() }}
             </div>
@@ -177,129 +220,6 @@
 
 
 <!-- Fin de elemento nuevo -->
-<h1 class="text-lg font-medium text-gray-900 mb-4">@lang('web.resultados_busqueda')</h1>
-@if (session()->has('eliminado'))
-    <div class="alert alert-success">
-        {{ session('eliminado') }}
-    </div>
-@endif
-@if($productos->count())
-<div class="flex flex-col">
-    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead>
-              <tr>
-                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                    ID/@lang('web.ver')
-                </th>
-                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                    @lang('web.nombre')
-                </th>
-                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                    @lang('web.descripcion')
-                </th>
-                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                    @lang('web.precio')
-                </th>
-                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                    @lang('web.publicado')
-                </th>
-                <th colspan="3" class="px-6 py-3 bg-gray-50">&nbsp;</th>
 
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                @foreach($productos as $producto)
-                    <tr>
-                        <td class="px-6 py-4 whitespace-no-wrap">
-                            <button class="revisar d-flex inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none
-                             focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" wire:click="$emit('view', {{$producto->id}})">
-                                <span class="mr-2 text-xs">{{ $producto->id }}</span>
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                    </path></svg>
-                            </button>
-
-                        </td>
-                        <td class="px-6 py-4 whitespace-no-wrap">
-                            <div class="text-sm leading-5 text-gray-900">{{ $producto->nombre }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-no-wrap">
-                            {{ $producto->descripcion }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-no-wrap">
-                            {{ $producto->precio }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-
-                            </span>
-                            @if($producto->estado)
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">OK</span>
-                            @else
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-green-800">NO</span>
-                            @endif
-                        </td>
-                        <td>
-                            <button wire:click="$emit('editar', {{$producto->id}})"   class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
-                                 rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none
-                                  focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                    </path>
-                                </svg>
-
-                            </button>
-                        </td>
-                        <td>
-                            <button  wire:click="cambiarEstado({{ $producto->id }})"  class="text-xs inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
-                                 rounded-md font-semibold text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none
-                                  focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
-                                  @lang('web.publicar')
-                            </button>
-                        </td>
-                        <td>
-                            @if($confirming===$producto->id)
-                                <button href="#" wire:click="$emit('eliminar', {{$producto->id}})"  class="inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent
-                                    rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:border-red-700
-                                    focus:shadow-outline-red active:bg-red-600 transition ease-in-out duration-150">
-                                    ok
-                                </button>
-                                <button href="#" wire:click="noeliminar()"  class="inline-flex items-center justify-center px-4 py-2 bg-green-600 border border-transparent
-                                    rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:border-green-700
-                                    focus:shadow-outline-green active:bg-green-600 transition ease-in-out duration-150">
-                                    no
-                                </button>
-                            @else
-                                <button href="#"   wire:click="confirmDelete({{ $producto->id }})" class="inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent
-                                    rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:border-red-700
-                                    focus:shadow-outline-red active:bg-red-600 transition ease-in-out duration-150">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                        </path>
-                                    </svg>
-                                </button>
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-          </table>
-        </div>
-        <div class="mt-3">
-            {{ $productos->links() }}
-        </div>
-      </div>
-    </div>
-  </div>
-@else
-    <div class="bg-white px4 py-3 border-t border-gray-200 sm:px-6 text-gray-500">
-        @lang('web.no_resultados') "{{ $search }}" @lang('web.en_la_pagina') {{ $page }} @lang('web.al_mostrar')  {{ $paginate }}
-    </div>
-@endif
 
 

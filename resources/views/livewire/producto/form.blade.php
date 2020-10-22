@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-6">
         <div class="form-group">
@@ -29,13 +30,6 @@
                 <span class="text-red-600">{{ $message }}</span>
             @enderror
         </div>
-        {{-- <fieldset class="border p-4 mt-5">
-            <legend  class="block font-medium text-sm text-gray-700">Imágenes Establecimiento: </legend>
-                <div class="form-group">
-                    <label for="imagenes"></label>
-                    <div id="dropzone" class="dropzone form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5"></div>
-                </div>
-        </fieldset> --}}
         <div class="form-group">
             <label class="block font-medium text-sm text-gray-700" for="image">Imagen</label>
             <input type="file" id="image" class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 @error('image') is-invalid @enderror" wire:model="image">
