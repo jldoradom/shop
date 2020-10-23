@@ -21,7 +21,6 @@ class FabricanteSeeder extends Seeder
             'pais' => 'USA',
             'telefono' => '958542154',
             'direccion_id' => 1,
-            'puerta' => 'b',
             'web' => 'www.HP.com',
             'email' => 'hpakard@gmail.com',
             'created_at' => Carbon::now(),

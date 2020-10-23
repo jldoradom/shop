@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Imagen;
-use App\Models\Fabricante;
+
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,8 +31,7 @@ class Producto extends Model
         return Storage::disk('public')->url($this->image);
     }
 
-
-    // Funcion para obtener las imagenes de un usuario
+    // Funcion para obtener las imagenes de un producto
     public function imagenes(){
         return $this->hasMany(Imagen::class);
     }
@@ -40,8 +39,13 @@ class Producto extends Model
     public function fabricante(){
         return $this->belongsTo(Fabricante::class);
     }
-    // Funcion para obtener la categoria de un producto
+
+    // Relacion 1:1 entre el establecimiento y la categoria
     public function categoria(){
-        return $this->belongsTo(Fabricante::class);
+        return $this->belongsTo(Categoria::class, 'categoria_id');
+    }
+     // Funcion para obtener el usuario
+     public function user(){
+        return $this->hasOne(User::class);
     }
 }

@@ -7,6 +7,8 @@ namespace App\Http\Livewire;
 use App\Models\Imagen;
 use Livewire\Component;
 use App\Models\Producto;
+use App\Models\Categoria;
+use App\Models\Fabricante;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
@@ -23,10 +25,13 @@ class ProductoComponent extends Component
     use WithPagination;
     use WithFileUploads;
     // Propiedades publicas de la clase
-    public $producto_id,$nombre,$descripcion,$precio,$stock,$confirming,$producto_estado,$search;
+    public $producto_id,$nombre,$descripcion,$precio,$confirming,$producto_estado,$search,
+    $fabricante_nombre,$fabricante_id,$categoria_id,$categoria_nombre,$codigo,$categoria_web;
     public $uuid = '';
     public $paginate = 5;
     public $imagenes = [];
+    public $fabricantes = [];
+    public $categorias = [];
     public $imagenesgaleria = [];
     public $camposImagenes = 1;
     public $view = 'producto.create';
@@ -59,10 +64,13 @@ class ProductoComponent extends Component
        $this->edit($id);
     }
 
-    // public function mount(){
-    //     $this->$camposImagenes = 1;
-    //     $this->imagenes = [];
-    // }
+    public function mount(){
+        // $this->$camposImagenes = 1;
+        // $this->imagenes = [];
+        $this->fabricantes = Fabricante::all();
+        // dd($this->fabricantes);
+        $this->categorias = Categoria::all();
+    }
 
     public function handleAddField(){
         $this->camposImagenes = $this->camposImagenes + 1;
@@ -88,9 +96,14 @@ class ProductoComponent extends Component
         return view('livewire.producto.producto-component', [
            'productos' => Producto::where('nombre', 'like' , '%'.$this->search.'%')
                 ->orderBy('created_at', 'DESC')
-                // ->orWhere('campo' ,'like' , '%'.$this->search.'%')
+                // ->orWhere('fabricante_id' ,'like' , '%'.$this->fabricante_id.'%')
                 ->paginate($this->paginate)
+
         ]);
+
+
+
+
 
     }
     // Funcion que almacena un producto
@@ -100,9 +113,11 @@ class ProductoComponent extends Component
             'nombre' => 'required',
             'descripcion' => 'required',
             'precio' => 'required|numeric',
-            'stock' => 'required|numeric',
-            'image' => 'required',
             'imagenes' => 'required',
+            'codigo'  => 'required',
+            'fabricante_id'  => 'required',
+            'categoria_id'  => 'required',
+            'categoria_web'  => 'required',
         ]);
 
         // Subimos las imagenes de la galeria y creamos el uuid
@@ -114,7 +129,10 @@ class ProductoComponent extends Component
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
             'precio' => $this->precio,
-            'stock' => $this->stock,
+            'codigo' => $this->codigo,
+            'fabricante_id' => $this->fabricante_id,
+            'categoria_id' => $this->categoria_id,
+            'categoria_web' => $this->categoria_web,
             'estado' => 0,
             'user_id' => auth::user()->id,
             'uuid' =>   $this->uuid
@@ -124,8 +142,6 @@ class ProductoComponent extends Component
         $this->nombre ='';
         $this->descripcion = '';
         $this->precio = '';
-        $this->stock = '';
-        $this->image = '';
         $this->imagenes = [];
 
 
@@ -241,7 +257,6 @@ class ProductoComponent extends Component
         $this->nombre = $producto->nombre;
         $this->descripcion = $producto->descripcion;
         $this->precio = $producto->precio;
-        $this->stock = $producto->stock;
         $this->uuid = $producto->uuid;
         // Obtener las imagenes de la tabla imagens
         $this->imagenesgaleria = Imagen::where('id_producto', '=', $this->uuid)->get();
@@ -254,7 +269,6 @@ class ProductoComponent extends Component
             'nombre' => 'required',
             'descripcion' => 'required',
             'precio' => 'required|numeric',
-            'stock' => 'required|numeric'
         ]);
 
         $producto = Producto::find($this->producto_id);
@@ -263,7 +277,6 @@ class ProductoComponent extends Component
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
             'precio' => $this->precio,
-            'stock' => $this->stock,
             'uuid' =>   $this->uuid
         ]);
 
@@ -288,7 +301,6 @@ class ProductoComponent extends Component
         $this->nombre ='';
         $this->descripcion = '';
         $this->precio = '';
-        $this->stock = '';
         $this->imagenes = [];
         $this->imagenesgaleria = [];
         $this->view = 'producto.create';
@@ -310,6 +322,22 @@ class ProductoComponent extends Component
             ]);
         }
     }
+     // Funcion para cambiar estado web de un producto y por tanto ponerlo en seccion rebajas
+     public function cambiarCategoriaWeb($id){
+        $producto = Producto::find($id);
+        $categoriaWeb = $producto->categoria_web;
+        if($categoriaWeb === 'destacado'){
+            $producto->update([
+                'categoria_web' => 'rebajado'
+
+            ]);
+        } else {
+            $producto->update([
+                'categoria_web' => 'destacado'
+
+            ]);
+        }
+    }
     // Funcion para revisar toda la info del producto
     public function revisar($id){
         $producto = Producto::find($id);
@@ -318,9 +346,12 @@ class ProductoComponent extends Component
         $this->nombre = $producto->nombre;
         $this->descripcion = $producto->descripcion;
         $this->precio = $producto->precio;
-        $this->stock = $producto->stock;
         $this->producto_estado = $producto->estado;
         $this->uuid = $producto->uuid;
+        $this->fabricante_nombre = $producto->fabricante->nombre;
+        $this->categoria_nombre = $producto->categoria->nombre;
+        $this->codigo = $producto->codigo;
+        $this->categoria_web = $producto->categoria_web;
         // Obtener las imagenes de la tabla imagens
         $this->imagenesgaleria = Imagen::where('id_producto', '=', $this->uuid)->get();
         $this->view = 'producto.view';

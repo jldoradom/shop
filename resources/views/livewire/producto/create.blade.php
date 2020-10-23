@@ -10,7 +10,7 @@
 <div class="card card-custom mt-5">
     <div class="card-header">
      <h3 class="card-title">
-        @lang('web.formulario_para_Editar_un_producto')
+        @lang('web.formulario_para_añadir_un_nuevo_producto')
      </h3>
      <div class="card-toolbar">
       <div class="example-tools justify-content-center">
@@ -56,13 +56,6 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label class="block font-medium text-sm text-gray-700" for="stock">Stock</label>
-                    <input type="text" id="stock" class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 @error('stock') is-invalid @enderror" wire:model="stock">
-                    @error('stock')
-                        <span class="text-red-600">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="form-group">
                     <label class="block font-medium text-sm text-gray-700" for="imagenes">Galería</label>
                     @for($i = 0; $i < $camposImagenes; $i++)
                         <input type="file" id="imagenes" class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 mb-3 mt-3 @error('imagenes') is-invalid @enderror"  wire:change="$emit('file_upload_start')">
@@ -98,7 +91,39 @@
                 @endif
             </div>
             <div class="col-12 col-md-6">
-                <p>Resto de campos</p>
+                <div class="form-group">
+                    <label  for="codigo">Código</label>
+                    <input type="text" id="codigo" class="form-control @error('codigo') is-invalid @enderror" wire:model="codigo">
+                    @error('codigo')
+                        <span class="text-red-600">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label for="fabricante">Fabricante</label>
+                    <select class="form-control" id="fabricante">
+                            <option value="" disabled>-- Selecciona --</option>
+                        @foreach($fabricantes as $fabricante)
+                            <option wire:moldel="fabricante_id" value="{{ $fabricante->id }}">{{ $fabricante->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="categoria">Categoria</label>
+                    <select class="form-control" id="categoria">
+                        <option value="" disabled>-- Selecciona --</option>
+                        @foreach($categorias as $categoria)
+                            <option wire:moldel="categoria_id" value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="categoria_web">Categoria web</label>
+                    <select class="form-control" id="categoria_web">
+                        <option wire:moldel="categoria_web" value="normal">Normal</option>
+                        <option wire:moldel="categoria_web" value="destacado">Destacado</option>
+                        <option wire:moldel="categoria_web" value="rebajado">Rebajado</option>
+                    </select>
+                </div>
             </div>
         </div>
      <div class="card-footer d-flex">

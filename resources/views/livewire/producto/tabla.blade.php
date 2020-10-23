@@ -18,7 +18,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-3 my-2 my-md-0">
                                         <div class="input-icon">
-                                            <input wire:model="search" id="busqueda" type="text" class="form-control" placeholder="Buscar...">
+                                            <input wire:model="search" id="busqueda" type="text" class="form-control" placeholder="Buscar por nombre...">
                                             <span>
                                                 <i class="flaticon2-search-1 text-muted"></i>
                                             </span>
@@ -26,7 +26,7 @@
                                     </div>
                                     <div class="col-md-3 my-2 my-md-0">
                                         <div class="input-icon">
-                                            <input wire:model="search" id="busqueda" type="text" class="form-control" placeholder="Buscar...">
+                                            <input wire:model="fabricante" id="busqueda" type="text" class="form-control" placeholder="Buscar por fabricante...">
                                             <span>
                                                 <i class="flaticon2-search-1 text-muted"></i>
                                             </span>
@@ -65,28 +65,31 @@
                     </div>
                     <!--begin: Datatable-->
 
-                    <div id="kt_datatable_2_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12">
-                        @if($productos->count())
-                        <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline"  role="grid" aria-describedby="" style="width: 1231px;">
-                            <thead>
-                                <tr role="row"><th class="dt-left sorting_disabled" rowspan="1" colspan="1" style="width: 30px;" aria-label="">
-                                    <label class="checkbox checkbox-single">
-                                        <input type="checkbox" value="" class="group-checkable">
-                                        <span></span>
-                                        </label>
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 45px;" aria-sort="descending" aria-label="">ID</th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 65px;" aria-label="">@lang('web.nombre')</th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 81px;" aria-label="">@lang('web.descripcion')</th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 87px;" aria-label="">@lang('web.precio')</th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 72px;" aria-label="">@lang('web.publicado')</th>
-                                    {{-- <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 116px;" aria-label="">Company Name</th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 47px;" aria-label="">Ship Date</th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 75px;" aria-label="">Status</th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 75px;" aria-label="">Type</th> --}}
-                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 125px;" aria-label="">Accciones</th></tr>
-                            </thead>
-                            <tbody>
+                    <div id="kt_datatable_2_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            @if($productos->count())
+                            <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline"  role="grid" aria-describedby="" style="width: 1231px;">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="dt-left sorting_disabled" rowspan="1" colspan="1" style="width: 30px;" aria-label="">
+                                            <label class="checkbox checkbox-single">
+                                                <input type="checkbox" value="" class="group-checkable">
+                                                <span></span>
+                                            </label>
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 45px;" aria-sort="descending" aria-label="">ID</th>
+                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 65px;" aria-label="">@lang('web.nombre')</th>
+                                        {{-- <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 81px;" aria-label="">@lang('web.descripcion')</th> --}}
+                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 87px;" aria-label="">@lang('web.precio')</th>
+                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 72px;" aria-label="">@lang('web.publicado')</th>
+                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 116px;" aria-label="">Fabricante</th>
+                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 47px;" aria-label="">Categoría</th>
+                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 75px;" aria-label="">Código</th>
+                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 75px;" aria-label="">Categoría web</th>
+                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 125px;" aria-label="">Accciones</th></tr>
+                                </thead>
+                                <tbody>
                                 @foreach($productos as $producto)
                                     <tr role="row" class="odd">
                                         <td class="dt-left dtr-control" tabindex="0">
@@ -97,8 +100,6 @@
                                         </td>
                                         <td class="sorting_1">{{ $producto->id }}</td>
                                         <td>{{ $producto->nombre }}</td>
-                                        <td>{{ $producto->descripcion }}</td>
-
                                         <td>
                                             <span class="label label-lg font-weight-bold label-light-primary label-inline">{{ $producto->precio }}</span>
                                         </td>
@@ -109,6 +110,19 @@
                                             @else
 
                                                 <span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">NO online</span>
+                                            @endif
+
+                                        </td>
+                                        <td>{{ $producto->fabricante->nombre }}</td>
+                                        <td>{{ $producto->categoria->nombre }}</td>
+                                        <td>{{ $producto->codigo }}</td>
+                                        <td>
+                                            @if($producto->categoria_web === 'destacado')
+
+                                                <span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">{{ $producto->categoria_web }}</span>
+                                            @else
+
+                                                <span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">{{ $producto->categoria_web }}</span>
                                             @endif
 
                                         </td>
@@ -130,6 +144,19 @@
                                                         <path d="M12,15 C10.3431458,15 9,13.6568542 9,12 C9,10.3431458 10.3431458,9 12,9 C13.6568542,9 15,10.3431458 15,12 C15,13.6568542 13.6568542,15 12,15 Z" fill="#000000" opacity="0.3"/>
                                                     </g>
                                                 </svg><!--end::Svg Icon--></span>
+                                            </a>
+                                            <a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Cambiar estado web" wire:click="cambiarCategoriaWeb({{ $producto->id }})">
+                                                <span class="svg-icon svg-icon-primary svg-icon-2x">
+                                                    <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2020-09-29-132851/theme/html/demo1/dist/../src/media/svg/icons/Shopping/Price1.svg-->
+                                                    <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2020-09-29-132851/theme/html/demo1/dist/../src/media/svg/icons/Shopping/Sale2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <rect x="0" y="0" width="24" height="24"/>
+                                                    <polygon fill="#000000" opacity="0.3" points="12 20.0218549 8.47346039 21.7286168 6.86905972 18.1543453 3.07048824 17.1949849 4.13894342 13.4256452 1.84573388 10.2490577 5.08710286 8.04836581 5.3722735 4.14091196 9.2698837 4.53859595 12 1.72861679 14.7301163 4.53859595 18.6277265 4.14091196 18.9128971 8.04836581 22.1542661 10.2490577 19.8610566 13.4256452 20.9295118 17.1949849 17.1309403 18.1543453 15.5265396 21.7286168"/>
+                                                    <polygon fill="#000000" points="14.0890818 8.60255815 8.36079737 14.7014391 9.70868621 16.049328 15.4369707 9.950447"/>
+                                                    <path d="M10.8543431,9.1753866 C10.8543431,10.1252593 10.085524,10.8938719 9.13585777,10.8938719 C8.18793881,10.8938719 7.41737243,10.1252593 7.41737243,9.1753866 C7.41737243,8.22551387 8.18793881,7.45690126 9.13585777,7.45690126 C10.085524,7.45690126 10.8543431,8.22551387 10.8543431,9.1753866" fill="#000000" opacity="0.3"/>
+                                                    <path d="M14.8641422,16.6221564 C13.9162233,16.6221564 13.1456569,15.8535438 13.1456569,14.9036711 C13.1456569,13.9520555 13.9162233,13.1851857 14.8641422,13.1851857 C15.8138085,13.1851857 16.5826276,13.9520555 16.5826276,14.9036711 C16.5826276,15.8535438 15.8138085,16.6221564 14.8641422,16.6221564 Z" fill="#000000" opacity="0.3"/>
+                                                </g>
+                                            </svg></span>
                                             </a>
                                             <a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Publicar en web" wire:click="cambiarEstado({{ $producto->id }})">
                                                 <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2020-09-29-132851/theme/html/demo1/dist/../src/media/svg/icons/Shopping/Price1.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

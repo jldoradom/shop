@@ -19,15 +19,9 @@
 
 <div class="card card-custom mt-5">
     <div class="card-header">
-     <h3 class="card-title">
-        @lang('web.formulario_para_Editar_un_producto')
-     </h3>
-     <div class="card-toolbar">
-      <div class="example-tools justify-content-center">
-       <span class="example-toggle" data-toggle="tooltip" title="View code"></span>
-       <span class="example-copy" data-toggle="tooltip" title="Copy code"></span>
-      </div>
-     </div>
+        <h3 class="card-title">
+            @lang('web.formulario_para_Editar_un_producto')
+        </h3>
     </div>
     <!--begin::Form-->
     <form wire:submit.prevent="update">
@@ -124,7 +118,7 @@
      </div>
     </form>
     <!--end::Form-->
-   </div>
+</div>
    <div class="container mb-5">
         <button  class="btn btn-primary font-weight-bolder d-flex" wire:click="default">
             <span class="svg-icon svg-icon-md">
