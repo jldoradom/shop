@@ -26,7 +26,7 @@ class ProductoComponent extends Component
     use WithFileUploads;
     // Propiedades publicas de la clase
     public $producto_id,$nombre,$descripcion,$precio,$confirming,$producto_estado,$search,
-    $fabricante_nombre,$fabricante_id,$categoria_id,$categoria_nombre,$codigo,$categoria_web;
+    $fabricante_nombre,$fabricante_id,$categoria_id,$categoria_nombre,$codigo,$categoria_web,$query,$subcategoria;
     public $uuid = '';
     public $paginate = 5;
     public $imagenes = [];
@@ -38,6 +38,8 @@ class ProductoComponent extends Component
     // Propiedades privadas
     protected $queryString = [
         'search' => ['except' => ''],
+        'fabricante_id' => ['except' => ''],
+        'categoria_id' => ['except' => ''],
         'paginate' => ['except' => '5']
 
     ];
@@ -46,7 +48,8 @@ class ProductoComponent extends Component
         'eliminar',
         'editar',
         'file_upload_end' => 'handleFileUploaded',
-        'eliminarImagen'
+        'eliminarImagen',
+        'fabricante'
     ];
     // Funciones que escuchan eventos lanzados desde JS
     public function view($id)
@@ -64,11 +67,13 @@ class ProductoComponent extends Component
        $this->edit($id);
     }
 
+
+    // Montamos los datos iniciales necesarios
     public function mount(){
         // $this->$camposImagenes = 1;
         // $this->imagenes = [];
+
         $this->fabricantes = Fabricante::all();
-        // dd($this->fabricantes);
         $this->categorias = Categoria::all();
     }
 
@@ -87,25 +92,29 @@ class ProductoComponent extends Component
     public function render()
     {
         // Devolvemos los productos filtrados
-        // return view('livewire.producto.producto-component', [
-        //     'productos' => $this->search === 0 ?
-        //     Producto::orderBy('created_at', 'DESC')->paginate($this->paginate) :
-        //     Producto::where('nombre', 'like', '%'.$this->search.'%')->paginate($this->paginate)
-        // ]);
-
         return view('livewire.producto.producto-component', [
-           'productos' => Producto::where('nombre', 'like' , '%'.$this->search.'%')
-                ->orderBy('created_at', 'DESC')
-                // ->orWhere('fabricante_id' ,'like' , '%'.$this->fabricante_id.'%')
-                ->paginate($this->paginate)
+            'productos' => $this->fabricante_id ===  '' ?
+            Producto::orderBy('created_at', 'DESC')->paginate($this->paginate) :
+            Producto::orderBy('created_at', 'DESC')
+                    ->orWhere('fabricante_id' ,'=' , $this->fabricante_id)
+                    ->orWhere('categoria_id' ,'=' , $this->categoria_id)
+                    ->orwhere('nombre', 'like' , '%'.$this->search.'%')
+                    ->paginate($this->paginate)
 
         ]);
 
+        // return view('livewire.producto.producto-component', [
+        //    'productos' => Producto::where('nombre', 'like' , '%'.$this->search.'%')
+        //             ->orWhere('fabricante_id' ,'=' , $this->fabricante_id)
+        //             ->orWhere('categoria_id' ,'=' , $this->categoria_id)
+        //             ->orderBy('created_at', 'DESC')
+        //             ->paginate($this->paginate)
 
-
-
+        // ]);
 
     }
+
+
     // Funcion que almacena un producto
     public function store(){
         // Validamos los campos
@@ -120,29 +129,49 @@ class ProductoComponent extends Component
             'categoria_web'  => 'required',
         ]);
 
-        // Subimos las imagenes de la galeria y creamos el uuid
-        $this->subirImagenes();
-        // Subimos la imagen principal
-        // $image =  $this->storeImage();
+        try {
+            // Subimos las imagenes de la galeria y creamos el uuid
+            $this->subirImagenes();
+            // Subimos la imagen principal
+            // $image =  $this->storeImage();
 
-        Producto::create([
-            'nombre' => $this->nombre,
-            'descripcion' => $this->descripcion,
-            'precio' => $this->precio,
-            'codigo' => $this->codigo,
-            'fabricante_id' => $this->fabricante_id,
-            'categoria_id' => $this->categoria_id,
-            'categoria_web' => $this->categoria_web,
-            'estado' => 0,
-            'user_id' => auth::user()->id,
-            'uuid' =>   $this->uuid
+            Producto::create([
+                'nombre' => $this->nombre,
+                'descripcion' => $this->descripcion,
+                'precio' => $this->precio,
+                'estado' => 0,
+                'uuid' =>   $this->uuid,
+                'fabricante_id' => $this->fabricante_id,
+                'categoria_id' => $this->categoria_id,
+                'codigo' => $this->codigo,
+                'categoria_web' => $this->categoria_web,
         ]);
+
+        } catch (Throwable $e) {
+            // Mostramos un mensaje de error
+            if(config('app.locale')  == 'es'){
+                session()->flash('error', 'Error al crear el producto.');
+            } else {
+                session()->flash('error', 'Error to created product.');
+            }
+            return redirect()->to('/admin/productos');
+        }
+
+
+
+
 
         // Una vez creado vaciamos los campos
         $this->nombre ='';
         $this->descripcion = '';
         $this->precio = '';
         $this->imagenes = [];
+        $this->fabricante_id = '';
+        $this->categoria_id = '';
+        $this->codigo = '';
+        $this->categoria_web = '';
+
+        $this->default();
 
 
         if(config('app.locale')  == 'es'){
@@ -151,7 +180,7 @@ class ProductoComponent extends Component
             session()->flash('message', 'Product created correctly.');
         }
 
-
+        return redirect()->to('/admin/productos');
 
 
     }
@@ -251,13 +280,7 @@ class ProductoComponent extends Component
     }
     // Funcion para editar un producto
     public function edit($id){
-        $producto = Producto::find($id);
-        // Obtenemos los datos del producto para verlos en el form
-        $this->producto_id = $producto->id;
-        $this->nombre = $producto->nombre;
-        $this->descripcion = $producto->descripcion;
-        $this->precio = $producto->precio;
-        $this->uuid = $producto->uuid;
+        $this->obtenerDatos($id);
         // Obtener las imagenes de la tabla imagens
         $this->imagenesgaleria = Imagen::where('id_producto', '=', $this->uuid)->get();
         $this->view = 'producto.edit';
@@ -269,31 +292,52 @@ class ProductoComponent extends Component
             'nombre' => 'required',
             'descripcion' => 'required',
             'precio' => 'required|numeric',
+            'codigo' => 'required',
+
         ]);
 
         $producto = Producto::find($this->producto_id);
 
-        $producto->update([
-            'nombre' => $this->nombre,
-            'descripcion' => $this->descripcion,
-            'precio' => $this->precio,
-            'uuid' =>   $this->uuid
-        ]);
+        try {
 
-        // Comprobar si se actualiza la imagen
-        // if($this->image){
-        //     $image =  $this->storeImage();
-        // }
+            $producto->update([
+                'nombre' => $this->nombre,
+                'descripcion' => $this->descripcion,
+                'precio' => $this->precio,
+                'uuid' =>   $this->uuid,
+                'fabricante_id' => $this->fabricante_id,
+                'categoria_id' => $this->categoria_id,
+                'codigo' => $this->codigo,
+                'categoria_web' => $this->categoria_web,
+            ]);
 
-        // Subimos las imagenes de la galeria y creamos el uuid
-        $this->subirImagenes();
+            // Comprobar si se actualiza la imagen
+            // if($this->image){
+            //     $image =  $this->storeImage();
+            // }
 
+            // Subimos las imagenes de la galeria y creamos el uuid
+            $this->subirImagenes();
 
-
-        // Enviamos mensaje de confirmacion
-        session()->flash('message', "Producto actualizado corréctamente.");
+        } catch (Throwable $e) {
+            // Mostramos un mensaje de error
+            if(config('app.locale')  == 'es'){
+                session()->flash('error', 'Error al actualizar  el producto.');
+            } else {
+                session()->flash('error', 'Error to updated product.');
+            }
+            return redirect()->to('/admin/productos');
+        }
 
         $this->default();
+
+        if(config('app.locale')  == 'es'){
+            session()->flash('message', 'Producto actualizado corréctamente.');
+        } else {
+            session()->flash('message', 'Product updated correctly.');
+        }
+
+        return redirect()->to('/admin/productos');
     }
     // Funcion que limpia los campos y vueve al from de creacion
     public function default(){
@@ -303,6 +347,10 @@ class ProductoComponent extends Component
         $this->precio = '';
         $this->imagenes = [];
         $this->imagenesgaleria = [];
+        $this->fabricante_id = '';
+        $this->categoria_id = '';
+        $this->codigo = '';
+        $this->categoria_web = '';
         $this->view = 'producto.create';
 
     }
@@ -340,9 +388,20 @@ class ProductoComponent extends Component
     }
     // Funcion para revisar toda la info del producto
     public function revisar($id){
+        $this->obtenerDatos($id);
+        // Obtener las imagenes de la tabla imagens
+        $this->imagenesgaleria = Imagen::where('id_producto', '=', $this->uuid)->get();
+        $this->view = 'producto.view';
+
+    }
+
+     // Obtener datos del producto seleccionado
+     public function obtenerDatos($id){
         $producto = Producto::find($id);
         // Obtenemos los datos del producto para verlos en el form
         $this->producto_id = $producto->id;
+        $this->categoria_id = $producto->categoria_id;
+        $this->fabricante_id = $producto->fabricante_id;
         $this->nombre = $producto->nombre;
         $this->descripcion = $producto->descripcion;
         $this->precio = $producto->precio;
@@ -352,15 +411,29 @@ class ProductoComponent extends Component
         $this->categoria_nombre = $producto->categoria->nombre;
         $this->codigo = $producto->codigo;
         $this->categoria_web = $producto->categoria_web;
-        // Obtener las imagenes de la tabla imagens
-        $this->imagenesgaleria = Imagen::where('id_producto', '=', $this->uuid)->get();
-        $this->view = 'producto.view';
-    }
+
+        // Obtenemos la categoria padre del producto
+        $categoria = $producto->categoria;
+        $idpadre = $categoria->id_categoria_padre;
+        // dd($idpadre);
+        if($idpadre !== null){
+            // dd($idpadre);
+            $subcategoria = Categoria::find($idpadre);
+            // dd($subcategoria);
+            $this->subcategoria = $subcategoria->nombre;
+        }
+
+
+
+
+     }
 
     // Funcion para restear el search
     public function clear(){
         $this->search = '';
         $this->paginate = '5';
+        $this->fabricante_id = '';
+        $this->categoria_id = '';
         $this->page = 1;
     }
 

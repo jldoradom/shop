@@ -14,7 +14,7 @@
 
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-jet-nav-link href="{{ route('admin') }}" :active="request()->routeIs('dashboard')">
+                        <x-jet-nav-link href="{{ route('productos') }}" :active="request()->routeIs('dashboard')">
 
                         </x-jet-nav-link>
                     </div>
@@ -44,8 +44,8 @@
                                 {{ __('Profile') }}
                             </x-jet-dropdown-link>
 
-                            <x-jet-dropdown-link href="{{ route('admin') }}">
-                                {{ __('Admin') }}
+                            <x-jet-dropdown-link href="{{ route('productos') }}">
+                                {{ __('Admin') }}aaaaa
                             </x-jet-dropdown-link>
 
 
@@ -114,7 +114,7 @@
         <!-- Responsive Navigation Menu -->
         <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
             <div class="pt-2 pb-3 space-y-1">
-                <x-jet-responsive-nav-link href="{{ route('admin') }}" :active="request()->routeIs('dashboard')">
+                <x-jet-responsive-nav-link href="{{ route('productos') }}" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                 </x-jet-responsive-nav-link>
             </div>
@@ -140,6 +140,9 @@
                     <!-- Account Management -->
                     <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                         {{ __('Profile') }}
+                    </x-jet-responsive-nav-link>
+                    <x-jet-responsive-nav-link href="{{ route('productos') }}" :active="request()->routeIs('productos')">
+                        {{ __('Admin') }}
                     </x-jet-responsive-nav-link>
 
 
@@ -198,7 +201,7 @@
     <div class="container">
         <div class="row">
             <div class="col-6"><h1 class="container">holaa</h1></div>
-            <div class="col-6"><a href="{{ route('admin') }}">Panel</a></div>
+            <div class="col-6"><a href="{{ route('productos') }}">Panel</a></div>
         </div>
     </div>
 @endsection
@@ -216,7 +219,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-6"><h1 class="container">holaa</h1></div>
-                        <div class="col-6"><a href="{{ route('admin') }}">Panel</a></div>
+                        <div class="col-6"><a href="{{ route('productos') }}">Panel</a></div>
                     </div>
                 </div>
             </div>

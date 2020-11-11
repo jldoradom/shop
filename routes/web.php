@@ -26,13 +26,18 @@ Route::get('/admin/metro', function () {
     return view('admin.metro');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->group( function(){
 
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+
+
+Route::middleware(['auth:sanctum', 'verified' , 'admin'])->group( function(){
+
+    Route::get('/admin/productos', [AdminController::class, 'productos'])->name('productos');
+    Route::get('pdf/{pedido}', [AdminController::class, 'downloadpdf'])->name('pdf');
     Route::get('/admin/users', [AdminController::class, 'users'])->name('users');
-
-
-
+    Route::get('/admin/fabricantes', [AdminController::class, 'fabricantes'])->name('fabricantes');
+    Route::get('/admin/pedidos', [AdminController::class, 'pedidos'])->name('pedidos');
+    Route::get('/admin/productos/desactivar', [AdminController::class, 'productosDesactivar'])->name('productos/desactivar');
+    Route::get('/admin/productos/modificar-precio', [AdminController::class, 'productosModificarPrecio'])->name('productos/modificar-precio');
 
 });
 

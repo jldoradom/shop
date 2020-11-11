@@ -77,6 +77,17 @@ const { set } = require("lodash");
 
 document.onreadystatechange = () => {
     if(document.readyState === 'complete'){
+        // var select = document.querySelector('.producto');
+        // select.addEventListener('change',
+        // function(){
+        //     var selectedOption = this.options[select.selectedIndex];
+        //     console.log(selectedOption.value);
+        //     var idproducto = selectedOption.value;
+        //     window.livewire.emit('productoemitido', {
+        //         idproducto,
+        //         cantidad: 2
+        //     });
+        // });
         window.livewire.on('file_upload_start', () => {
             try{
                 let file = event.target.files[0];
@@ -98,6 +109,13 @@ document.onreadystatechange = () => {
         });
     }
 }
+
+Livewire.on('store', () => {
+
+
+});
+
+
 
 
 Livewire.on('view', () => {

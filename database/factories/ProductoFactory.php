@@ -24,9 +24,8 @@ class ProductoFactory extends Factory
         return [
             'nombre' => $this->faker->name,
             'descripcion' => $this->faker->paragraph,
-            'precio' => $this->faker->randomFloat,
+            'precio' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 999999),
             'estado' => 0,
-            'user_id' => 1,
             'codigo' => 'df54d54v',
             'categoria_web' => 'destacado',
             'uuid' => $this->faker->uuid,

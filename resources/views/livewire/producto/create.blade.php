@@ -1,33 +1,23 @@
-
-{{-- @if (session()->has('message'))
-    <div class="alert alert-success">
-        {{ session('message') }}
-    </div>
-    @endif
-@include('livewire.producto.form') --}}
-
-
 <div class="card card-custom mt-5">
     <div class="card-header">
      <h3 class="card-title">
         @lang('web.formulario_para_añadir_un_nuevo_producto')
      </h3>
-     <div class="card-toolbar">
-      <div class="example-tools justify-content-center">
-       <span class="example-toggle" data-toggle="tooltip" title="View code"></span>
-       <span class="example-copy" data-toggle="tooltip" title="Copy code"></span>
-      </div>
-     </div>
     </div>
     <!--begin::Form-->
+    <div class="m-4">
+        @if (session()->has('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
+        @if (session()->has('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+    </div>
     <form wire:submit.prevent="update">
-        <div>
-            @if (session()->has('message'))
-                <div class="alert alert-success">
-                    {{ session('message') }}
-                </div>
-            @endif
-        </div>
      <div class="card-body">
         <div class="row">
             <div class="col-12 col-md-6">
@@ -42,7 +32,7 @@
 
                 <div class="form-group">
                     <label class="block font-medium text-sm text-gray-700" for="descripcion">@lang('web.descripcion')</label>
-                    <textarea id="descripcion"  class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 @error('descripcion') is-invalid @enderror" wire:model="descripcion">
+                    <textarea id="descripcion"  class="form-control  @error('descripcion') is-invalid @enderror" wire:model="descripcion">
                     </textarea>
                     @error('descripcion')
                         <span class="text-red-600">{{ $message }}</span>
@@ -50,7 +40,7 @@
                 </div>
                 <div class="form-group">
                     <label class="block font-medium text-sm text-gray-700" for="precio" >@lang('web.precio')</label>
-                    <input type="text" id="precio" class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 @error('precio') is-invalid @enderror" wire:model="precio">
+                    <input type="text" id="precio" class="form-control  @error('precio') is-invalid @enderror" wire:model="precio">
                     @error('precio')
                         <span class="text-red-600">{{ $message }}</span>
                     @enderror
@@ -58,7 +48,7 @@
                 <div class="form-group">
                     <label class="block font-medium text-sm text-gray-700" for="imagenes">Galería</label>
                     @for($i = 0; $i < $camposImagenes; $i++)
-                        <input type="file" id="imagenes" class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 mb-3 mt-3 @error('imagenes') is-invalid @enderror"  wire:change="$emit('file_upload_start')">
+                        <input type="file" id="imagenes" class="form-control  mb-3 mt-3 @error('imagenes') is-invalid @enderror"  wire:change="$emit('file_upload_start')">
                         @error('imagenes')
                             <span class="text-red-600">{{ $message }}</span>
                         @enderror
@@ -66,7 +56,7 @@
                     <div>
                         <a class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
                         rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none
-                        focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" href="#" wire:click.prevent="handleAddField">Añadir Imagen</a>
+                        focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" href="#" wire:click.prevent="handleAddField">@lang('web.añadir_imagen')</a>
                     </div>
                 </div>
                 @if(count($imagenesgaleria) > 0 )
@@ -92,47 +82,56 @@
             </div>
             <div class="col-12 col-md-6">
                 <div class="form-group">
-                    <label  for="codigo">Código</label>
+                    <label  for="codigo">@lang('web.codigo')</label>
                     <input type="text" id="codigo" class="form-control @error('codigo') is-invalid @enderror" wire:model="codigo">
                     @error('codigo')
                         <span class="text-red-600">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="fabricante">Fabricante</label>
-                    <select class="form-control" id="fabricante">
-                            <option value="" disabled>-- Selecciona --</option>
+                    <label for="fabricante_id">@lang('web.fabricante')</label>
+                    <select wire:model="fabricante_id"  class="form-control @error('fabricante_id') is-invalid @enderror" id="fabricante_id">
+                        <option value="" selected disabled>@lang('web.seleccione')</option>
                         @foreach($fabricantes as $fabricante)
-                            <option wire:moldel="fabricante_id" value="{{ $fabricante->id }}">{{ $fabricante->nombre }}</option>
+                            <option  value="{{ $fabricante->id }}">{{ $fabricante->nombre }}</option>
                         @endforeach
                     </select>
+                    @error('fabricante_id')
+                        <span class="text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="form-group">
-                    <label for="categoria">Categoria</label>
-                    <select class="form-control" id="categoria">
-                        <option value="" disabled>-- Selecciona --</option>
+                    <label for="categoria_id">@lang('web.categoria')</label>
+                    <select wire:model="categoria_id" class="form-control @error('categoria_id') is-invalid @enderror" id="categoria_id" >
+                        <option value="" selected disabled>@lang('web.seleccione')</option>
                         @foreach($categorias as $categoria)
-                            <option wire:moldel="categoria_id" value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                            <option  value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
                         @endforeach
                     </select>
+                    @error('categoria_id')
+                        <span class="text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="form-group">
-                    <label for="categoria_web">Categoria web</label>
-                    <select class="form-control" id="categoria_web">
-                        <option wire:moldel="categoria_web" value="normal">Normal</option>
-                        <option wire:moldel="categoria_web" value="destacado">Destacado</option>
-                        <option wire:moldel="categoria_web" value="rebajado">Rebajado</option>
+                    <label for="categoria_web">@lang('web.categoria_web')</label>
+                    <select wire:model="categoria_web" class="form-control @error('categoria_web') is-invalid @enderror" id="categoria_web" >
+                        <option value="" selected disabled>@lang('web.seleccione')</option>
+                        <option value="normal">@lang('web.normal')</option>
+                        <option value="destacado">@lang('web.destacado')</option>
+                        <option value="rebajado">@lang('web.rebajado')</option>
                     </select>
+                    @error('categoria_web')
+                        <span class="text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
         </div>
-     <div class="card-footer d-flex">
+    </form>
+    <div class="card-footer d-flex">
         <button class="btn btn-primary mr-2" wire:click="store">
-                @lang('web.guardar')
-
+            @lang('web.guardar')
         </button>
      </div>
-    </form>
     <!--end::Form-->
    </div>
 

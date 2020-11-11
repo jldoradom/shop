@@ -3,7 +3,7 @@
 <div class="card-header flex-wrap border-0 pt-6 pb-0">
     <div class="card-title">
         <h3 class="card-label">@lang('web.filtrado_de_productos')
-        <span class="text-muted pt-2 font-size-sm d-block">Buscar productos por distintos parametros</span></h3>
+        <span class="text-muted pt-2 font-size-sm d-block">@lang('web.buscar_productos')</span></h3>
     </div>
     <div class="card-toolbar">
         <!--begin::Button-->
@@ -18,7 +18,7 @@
                 </g>
             </svg>
             <!--end::Svg Icon-->
-        </span>Nuevo producto</a>
+        </span>@lang('web.nuevo_producto')</a>
         <!--end::Button-->
     </div>
 </div>

@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Producto;
-use App\Models\Direccion;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Collection;
 
 class Fabricante extends Model
 {
@@ -13,7 +14,6 @@ class Fabricante extends Model
 
     protected $fillable = [
         'nombre',
-        'pais',
         'telefono',
         'direccion_id',
         'web',

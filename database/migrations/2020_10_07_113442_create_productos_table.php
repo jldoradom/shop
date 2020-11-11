@@ -16,9 +16,8 @@ class CreateProductosTable extends Migration
         Schema::create('fabricantes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('pais');
             $table->string('telefono');
-            $table->string('direccion_id')->constrained();
+            $table->foreignId('direccion_id')->constrained();
             $table->string('web');
             $table->string('email')->unique();
             $table->timestamps();
@@ -39,7 +38,6 @@ class CreateProductosTable extends Migration
             $table->text('descripcion');
             $table->double('precio');
             $table->integer('estado');
-            $table->foreignId('user_id')->constrained();
             $table->uuid('uuid');
             $table->foreignId('fabricante_id')->constrained();
             $table->foreignId('categoria_id')->constrained();

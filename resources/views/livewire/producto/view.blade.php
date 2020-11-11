@@ -2,7 +2,7 @@
 <div class="card card-custom mt-5">
     <div class="card-header">
         <h3 class="card-title">
-            Informacion del Producto
+            @lang('web.info_producto')
         </h3>
     </div>
     <div class="card-body">
@@ -54,28 +54,39 @@
                             <td class=""><div class="leading-5 text-gray-900 ml-3">{{ $precio }}</div></td>
                         </tr>
                         <tr>
-                            <td class="px-6 py-3 bg-gray-50 text-left  leading-4 font-medium text-gray-500 uppercase tracking-wider"><span class="ml-3">Fabricante</span></td>
+                            <td class="px-6 py-3 bg-gray-50 text-left  leading-4 font-medium text-gray-500 uppercase tracking-wider"><span class="ml-3">@lang('web.fabricante')</span></td>
                             <td class=""><div class="leading-5 text-gray-900 ml-3">{{ $fabricante_nombre }}</div></td>
                         </tr>
                         <tr>
-                            <td class="px-6 py-3 bg-gray-50 text-left  leading-4 font-medium text-gray-500 uppercase tracking-wider"><span class="ml-3">Categoria</span></td>
+                            <td class="px-6 py-3 bg-gray-50 text-left  leading-4 font-medium text-gray-500 uppercase tracking-wider"><span class="ml-3">@lang('web.categoria')</span></td>
                             <td class=""><div class="leading-5 text-gray-900 ml-3">{{ $categoria_nombre }}</div></td>
                         </tr>
                         <tr>
-                            <td class="px-6 py-3 bg-gray-50 text-left  leading-4 font-medium text-gray-500 uppercase tracking-wider"><span class="ml-3">Código</span></td>
+                            <td class="px-6 py-3 bg-gray-50 text-left  leading-4 font-medium text-gray-500 uppercase tracking-wider"><span class="ml-3">@lang('web.subcategoria')</span></td>
+                            <td class="">
+                                @if($subcategoria)
+                                    <div class="leading-5 text-gray-900 ml-3">{{ $subcategoria }}</div>
+                                @else
+                                    <div class="leading-5 text-gray-900 ml-3">No</div>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-3 bg-gray-50 text-left  leading-4 font-medium text-gray-500 uppercase tracking-wider"><span class="ml-3">@lang('web.codigo')</span></td>
                             <td class=""><div class="leading-5 text-gray-900 ml-3">{{ $codigo }}</div></td>
                         </tr>
                         <tr>
-                            <td class="px-6 py-3 bg-gray-50 text-left  leading-4 font-medium text-gray-500 uppercase tracking-wider"><span class="ml-3">Cat. Web</span></td>
+                            <td class="px-6 py-3 bg-gray-50 text-left  leading-4 font-medium text-gray-500 uppercase tracking-wider"><span class="ml-3">@lang('web.cat_web')</span></td>
                             <td class=""><div class="leading-5 text-gray-900 ml-3">{{ $categoria_web }}</div></td>
                         </tr>
                         <tr>
-                            <td class="px-6 py-3 bg-gray-50 text-left  leading-4 font-medium text-gray-500 uppercase tracking-wider"><span class="ml-3">Galeria</span></td>
+                            <td class="px-6 py-3 bg-gray-50 text-left  leading-4 font-medium text-gray-500 uppercase tracking-wider"><span class="ml-3">@lang('web.galeria')</span></td>
                             <td class="">
                                 <div class="leading-5 text-gray-900 ml-3">
                                     @foreach($imagenesgaleria as $imagen)
-                                        <a target="_blank" href="{{ 'storage/galeria/'.$imagen->id_producto.'/'.$imagen->filename }}">
-                                            <img style="width:200px; margin-top:20px;" src="{{ 'storage/galeria/'.$imagen->id_producto.'/'.$imagen->filename }}" /></a>
+                                        <a target="_blank" href="{{ '../storage/galeria/'.$imagen->id_producto.'/'.$imagen->filename }}">
+                                            <img style="width:200px; margin-top:20px;" src="{{ '../storage/galeria/'.$imagen->id_producto.'/'.$imagen->filename }}" />
+                                        </a>
                                     @endforeach
                                 </div>
                             </td>
@@ -98,7 +109,7 @@
                     </g>
                 </svg>
                 <!--end::Svg Icon-->
-            </span>Nuevo producto
+            </span>@lang('web.nuevo_producto')
         </button>
     </div>
 </div>

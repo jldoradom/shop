@@ -17,9 +17,20 @@ class Direccion extends Model
         'puerta',
         'localidad',
         'provincia',
+        'codigo_postal',
         'pais',
-        'codigo_postal'
+        'dni'
     ];
+
+    // Funcion para obtener los fabricantes de una direccion
+    public function fabricantes(){
+        return $this->hasMany(Fabricante::class);
+    }
+
+     // Funcion para obtener los usuarios de una direccion
+     public function users(){
+        return $this->hasMany(User::class);
+    }
 
 
 }

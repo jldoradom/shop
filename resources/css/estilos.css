@@ -2,3 +2,8 @@
     list-style: inside;
     color: #0056b3;
 }
+
+.btn-menu-admin-logo {
+    display: flex;
+    align-items: center;
+}

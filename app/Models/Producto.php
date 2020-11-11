@@ -17,7 +17,6 @@ class Producto extends Model
         'descripcion',
         'precio',
         'estado',
-        'user_id',
         'uuid',
         'fabricante_id',
         'categoria_id',

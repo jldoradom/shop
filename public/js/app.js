@@ -19451,6 +19451,17 @@ var _require = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.j
 
 document.onreadystatechange = function () {
   if (document.readyState === 'complete') {
+    // var select = document.querySelector('.producto');
+    // select.addEventListener('change',
+    // function(){
+    //     var selectedOption = this.options[select.selectedIndex];
+    //     console.log(selectedOption.value);
+    //     var idproducto = selectedOption.value;
+    //     window.livewire.emit('productoemitido', {
+    //         idproducto,
+    //         cantidad: 2
+    //     });
+    // });
     window.livewire.on('file_upload_start', function () {
       try {
         var file = event.target.files[0];
@@ -19475,6 +19486,7 @@ document.onreadystatechange = function () {
   }
 };
 
+Livewire.on('store', function () {});
 Livewire.on('view', function () {
   // document.querySelector("html, body").animate({scrollTop: 1000},600);
   $("html, body").scrollTop(1000);
@@ -19508,8 +19520,8 @@ Livewire.on('editar', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! H:\proyectoslaravel\shop\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! H:\proyectoslaravel\shop\resources\css\app.css */"./resources/css/app.css");
+__webpack_require__(/*! H:\proyectoslaravel\trazatech\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! H:\proyectoslaravel\trazatech\resources\css\app.css */"./resources/css/app.css");
 
 
 /***/ })

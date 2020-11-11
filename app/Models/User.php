@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Direccion;
+use App\Models\Role;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
@@ -28,6 +29,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'telefono'
+
     ];
 
     /**
@@ -60,8 +63,54 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    // Funcion para obtener la direccion de un fabricante
+    // Funcion para obtener la direccion de un usuario
     public function direccion(){
-        return $this->hasOne(Direccion::class);
+        return $this->hasOne(Direccion_user::class, 'user_id');
     }
+
+      // Funcion para obtener la direccion de un usuario
+      public function pedidos(){
+        return $this->hasMany(Pedido::class, 'user_id');
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class)->withTimestamps();
+    }
+
+    public function rol()
+    {
+        return $this->hasOne(Role_user::class, 'user_id');
+    }
+
+    public function authorizeRoles($roles)
+    {
+        abort_unless($this->hasAnyRole($roles), 401);
+        return true;
+    }
+    public function hasAnyRole($roles)
+    {
+        if (is_array($roles)) {
+            foreach ($roles as $role) {
+                if ($this->hasRole($role)) {
+                    return true;
+                }
+            }
+        } else {
+            if ($this->hasRole($roles)) {
+                 return true;
+            }
+        }
+        return false;
+    }
+
+    public function hasRole($role)
+    {
+        if ($this->roles()->where('name', $role)->first()) {
+            return true;
+        }
+        return false;
+    }
+
+
 }

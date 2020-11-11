@@ -24,10 +24,10 @@ class DireccionSeeder extends Seeder
             'puerta' => 'b',
             'localidad' => 'Ronda',
             'provincia' => 'Malaga',
-            'pais' => 'España',
             'codigo_postal' => '29790',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
+            'pais' => 'España'
         ]);
     }
 }

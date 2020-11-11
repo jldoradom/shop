@@ -8,13 +8,13 @@
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
                         <h3 class="card-label">@lang('web.admin_header_productos')
-                        <span class="text-muted pt-2 font-size-sm d-block">Productos</span></h3>
+                        <span class="text-muted pt-2 font-size-sm d-block">@lang('web.productos')</span></h3>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="mb-7">
                         <div class="row align-items-center">
-                            <div class="col-lg-9 col-xl-8">
+                            <div class="col-lg-9 col-xl-10">
                                 <div class="row align-items-center">
                                     <div class="col-md-3 my-2 my-md-0">
                                         <div class="input-icon">
@@ -24,15 +24,27 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 my-2 my-md-0">
+                                    <div class="col-md-2 my-2 my-md-0">
                                         <div class="input-icon">
-                                            <input wire:model="fabricante" id="busqueda" type="text" class="form-control" placeholder="Buscar por fabricante...">
-                                            <span>
-                                                <i class="flaticon2-search-1 text-muted"></i>
-                                            </span>
+                                            <select wire:model="fabricante_id"    class="form-control" >
+                                                <option value="" selected disabled>@lang('web.seleccione')</option>
+                                                @foreach($fabricantes as $fabricante)
+                                                    <option  value="{{ $fabricante->id }}">{{ $fabricante->nombre }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 my-2 my-md-0">
+                                    <div class="col-md-4 my-2 my-md-0">
+                                        <div class="input-icon">
+                                            <select wire:model="categoria_id"  class="form-control">
+                                                <option value="" selected disabled>@lang('web.seleccione')</option>
+                                                @foreach($categorias as $categoria)
+                                                    <option  value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 my-2 my-md-0">
                                         <div class="d-flex align-items-center">
                                             <select wire:model="paginate" class="form-control" >
                                                 <option value="5">@lang('web.5_por_pagina')</option>
@@ -45,7 +57,7 @@
                                         </div>
                                     </div>
                                     @if($search !== '')
-                                        <div class="col-md-3 my-2 my-md-0">
+                                        <div class="col-md-1 my-2 my-md-0">
                                             <div class="d-flex align-items-center">
                                                 <button wire:click="clear" class="btn btn-secondary">X</button>
                                             </div>
@@ -65,39 +77,28 @@
                     </div>
                     <!--begin: Datatable-->
 
-                    <div id="kt_datatable_2_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                    <div id="" class="dataTables_wrapper dt-bootstrap4 no-footer">
                         <div class="row">
                             <div class="col-sm-12">
-                            @if($productos->count())
                             <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline"  role="grid" aria-describedby="" style="width: 1231px;">
                                 <thead>
                                     <tr role="row">
-                                        <th class="dt-left sorting_disabled" rowspan="1" colspan="1" style="width: 30px;" aria-label="">
-                                            <label class="checkbox checkbox-single">
-                                                <input type="checkbox" value="" class="group-checkable">
-                                                <span></span>
-                                            </label>
-                                        </th>
+
                                         <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 45px;" aria-sort="descending" aria-label="">ID</th>
                                         <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 65px;" aria-label="">@lang('web.nombre')</th>
-                                        {{-- <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 81px;" aria-label="">@lang('web.descripcion')</th> --}}
                                         <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 87px;" aria-label="">@lang('web.precio')</th>
                                         <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 72px;" aria-label="">@lang('web.publicado')</th>
-                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 116px;" aria-label="">Fabricante</th>
-                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 47px;" aria-label="">Categoría</th>
-                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 75px;" aria-label="">Código</th>
-                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 75px;" aria-label="">Categoría web</th>
-                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 125px;" aria-label="">Accciones</th></tr>
+                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 116px;" aria-label="">@lang('web.fabricante')</th>
+                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 47px;" aria-label="">@lang('web.categoria')</th>
+                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 75px;" aria-label="">@lang('web.codigo')</th>
+                                        <th class="sorting" tabindex="0" aria-controls="kt_datatable_2" rowspan="1" colspan="1" style="width: 75px;" aria-label="">@lang('web.categoria_web')</th>
+                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 125px;" aria-label="">@lang('web.acciones')</th></tr>
                                 </thead>
+                            @if($productos->count())
                                 <tbody>
                                 @foreach($productos as $producto)
                                     <tr role="row" class="odd">
-                                        <td class="dt-left dtr-control" tabindex="0">
-                                            <label class="checkbox checkbox-single">
-                                                <input type="checkbox" value="" class="checkable">
-                                                <span></span>
-                                            </label>
-                                        </td>
+
                                         <td class="sorting_1">{{ $producto->id }}</td>
                                         <td>{{ $producto->nombre }}</td>
                                         <td>
@@ -105,23 +106,18 @@
                                         </td>
                                         <td>
                                             @if($producto->estado)
-
                                                 <span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Online</span>
                                             @else
-
                                                 <span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">NO online</span>
                                             @endif
-
                                         </td>
                                         <td>{{ $producto->fabricante->nombre }}</td>
                                         <td>{{ $producto->categoria->nombre }}</td>
                                         <td>{{ $producto->codigo }}</td>
                                         <td>
                                             @if($producto->categoria_web === 'destacado')
-
                                                 <span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">{{ $producto->categoria_web }}</span>
                                             @else
-
                                                 <span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">{{ $producto->categoria_web }}</span>
                                             @endif
 
@@ -200,40 +196,18 @@
                                     </tr>
                                 @endforeach
                             </tbody>
+                            @else
+                                <div class="bg-white px4 py-3 border-t border-gray-200 sm:px-6 text-gray-500 min-width-message">
+                                    @lang('web.no_resultados') "{{ $search }}" @lang('web.en_la_pagina') {{ $page }} @lang('web.al_mostrar')  {{ $paginate }}
+                                </div>
+                                <div wire:loading class="bg-white px4 py-3  border-gray-200 sm:px-6 text-gray-500 min-width-message">
+                                    <div class="">@lang('web.buscando')</div>
+                                </div>
+                            @endif
+
                     </table>
                 </div>
-                @else
-                    <div class="bg-white px4 py-3 border-t border-gray-200 sm:px-6 text-gray-500">
-                        @lang('web.no_resultados') "{{ $search }}" @lang('web.en_la_pagina') {{ $page }} @lang('web.al_mostrar')  {{ $paginate }}
-                    </div>
-                @endif
             </div>
-            {{-- <div class="row">
-                <div class="col-sm-12 col-md-5">
-                    <div class="dataTables_info" id="kt_datatable_2_info" role="status" aria-live="polite">Showing 1 to 10 of 50 entries</div>
-                </div>
-                <div class="col-sm-12 col-md-7 dataTables_pager">
-                    <div class="dataTables_length" id="kt_datatable_2_length">
-                        <label>Display <select name="kt_datatable_2_length" aria-controls="kt_datatable_2" class="custom-select custom-select-sm form-control form-control-sm">
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                            </select>
-                        </label>
-                    </div>
-                    <div class="dataTables_paginate paging_simple_numbers" id="kt_datatable_2_paginate">
-                        <ul class="pagination"><li class="paginate_button page-item previous disabled" id="kt_datatable_2_previous">
-                            <a href="#" aria-controls="kt_datatable_2" data-dt-idx="0" tabindex="0" class="page-link">
-                                <i class="ki ki-arrow-back"></i></a></li>
-                                <li class="paginate_button page-item active">
-                                    <a href="#" aria-controls="kt_datatable_2" data-dt-idx="1" tabindex="0" class="page-link">1</a>
-                                </li>
-                                <li class="paginate_button page-item "><a href="#" aria-controls="kt_datatable_2" data-dt-idx="2" tabindex="0" class="page-link">2</a>
-                                </li><li class="paginate_button page-item "><a href="#" aria-controls="kt_datatable_2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="kt_datatable_2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="kt_datatable_2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item next" id="kt_datatable_2_next"><a href="#" aria-controls="kt_datatable_2" data-dt-idx="6" tabindex="0" class="page-link"><i class="ki ki-arrow-next"></i></a></li></ul></div></div></div></div>
-                    <!--end: Datatable-->
-                </div>
-            </div> --}}
             <!--------- Insertar paginacion  --------------->
             <div class="mt-3">
                 {{ $productos->links() }}
